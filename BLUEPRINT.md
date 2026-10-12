@@ -42,8 +42,8 @@ Berdasarkan benchmark dari Zonakacamata.com.
 5. **Admin:** Optik Dwi Putra mendapat notifikasi di Filament Admin -> Proses pembuatan kacamata -> Kirim resi.
 
 ## 5. TAHAPAN PENGERJAAN (ROADMAP)
-- [ ] **Phase 1 (Data Structure):** Membuat tabel `product_variants`, `orders`, `order_items`, `order_prescriptions`.
-- [ ] **Phase 2 (Admin Panel):** Menyesuaikan form Filament agar Admin bisa upload banyak foto/warna untuk 1 produk.
-- [ ] **Phase 3 (Frontend Engine):** Membuat Product Page dengan fitur Ganti Warna dinamis (Livewire/Alpine).
-- [ ] **Phase 4 (Lens Wizard):** Form dinamis untuk input resep mata sebelum masuk keranjang.
-- [ ] **Phase 5 (Checkout & Payment):** Integrasi Midtrans.
+- [x] **Phase 1 (Data Structure):** Membuat tabel `product_variants`, `orders`, `order_items`, `order_prescriptions`. *(Selesai — tabel `carts`/`cart_items` menunggu Phase 5.)*
+- [x] **Phase 2 (Admin Panel):** Menyesuaikan form Filament agar Admin bisa upload banyak foto/warna untuk 1 produk. *(Selesai — repeater varian + foto per varian.)*
+- [x] **Phase 3 (Frontend Engine):** Membuat Product Page dengan fitur Ganti Warna dinamis (Livewire/Alpine). *(Selesai 2026-10-12 — halaman `/produk/{slug}`, foto berganti per varian, USP, tombol "Pilih Lensa".)*
+- [x] **Phase 4 (Lens Wizard):** Form dinamis untuk input resep mata sebelum masuk keranjang. *(Selesai dalam bentuk sederhana via WhatsApp — wizard lensa + resep di beranda & halaman produk, tombol "Hubungi" (WhatsApp), tanpa penyimpanan order/customer sesuai keputusan owner tahap ini.)*
+- [ ] **Phase 5 (Checkout & Payment):** Integrasi Midtrans. *(Tertunda — membutuhkan akun & kunci Midtrans dari owner; alur pemesanan aktif saat ini via WhatsApp.)*

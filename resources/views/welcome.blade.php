@@ -118,6 +118,7 @@
             <!-- Kartu Produk menggunakan state mandiri Alpine -->
             <div x-data="productCard({{ $product->variants->toJson() }})" x-show="(category === 'all' || category === '{{ $product->category_id }}') && (brand === 'all' || brand == '{{ $product->brand_id }}') && '{{ strtolower(addslashes($product->name . ' ' . $product->material)) }}'.includes(searchQuery.toLowerCase())" class="group bg-white p-5 rounded-2xl shadow-sm border border-gray-100">
                 
+                <a href="{{ route('products.show', $product->slug) }}" class="block">
                 <div class="bg-gray-100 aspect-square rounded-xl mb-4 relative overflow-hidden flex items-center justify-center transition">
                     @if($product->badge)
                     <div class="absolute top-3 left-3 bg-gray-900 text-white text-xs font-bold px-3 py-1.5 rounded-full uppercase tracking-wider z-10 shadow-md">
@@ -133,11 +134,12 @@
                         <svg class="w-24 h-24 opacity-80" :style="`color: ${currentVariant?.color_hex || '#9ca3af'}`" fill="currentColor" viewBox="0 0 24 24"><path d="M21.947 9.179a1.001 1.001 0 0 0-.868-.492h-5.26c-1.396 0-2.617.915-3.056 2.232L12 13.2l-.763-2.281a3.228 3.228 0 0 0-3.056-2.232H2.92a1 1 0 0 0-.868.492 1.002 1.002 0 0 0 .153 1.077L4.5 13.5v3a1 1 0 0 0 1 1h4a3.504 3.504 0 0 0 3.5-3.5 1 1 0 0 1 2 0 3.504 3.504 0 0 0 3.5 3.5h4a1 1 0 0 0 1-1v-3l2.295-3.244a1.002 1.002 0 0 0 .152-1.077z"/></svg>
                     </div>
                 </div>
+                </a>
 
                 <div class="flex justify-between items-start mb-2">
                     <div>
                         <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">{{ $product->material ?? 'Premium' }}</p>
-                        <h3 class="font-extrabold text-xl leading-tight">{{ $product->name }}</h3>
+                        <h3 class="font-extrabold text-xl leading-tight"><a href="{{ route('products.show', $product->slug) }}" class="hover:underline">{{ $product->name }}</a></h3>
                     </div>
                     <div class="text-right ml-2">
                         @if($product->promo_price)
@@ -304,10 +306,10 @@
             <div>
                 <h4 class="font-extrabold text-gray-900 mb-6 uppercase tracking-wider text-sm">Layanan & Bantuan</h4>
                 <ul class="space-y-4 text-sm font-medium text-gray-500">
-                    <li><a href="#" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform">Cara Membaca Resep Mata</a></li>
-                    <li><a href="#" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform">Panduan Ukuran Frame</a></li>
-                    <li><a href="#" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform">Kebijakan Pengiriman & Retur</a></li>
-                    <li><a href="#" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform flex items-center gap-2">Garansi 6 Bulan <span class="bg-gray-900 text-white text-[10px] px-2 py-0.5 rounded-md">PRO</span></a></li>
+                    <li><a href="{{ route('articles.show', 'cara-membaca-resep-mata') }}" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform">Cara Membaca Resep Mata</a></li>
+                    <li><a href="{{ route('articles.show', 'panduan-ukuran-frame') }}" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform">Panduan Ukuran Frame</a></li>
+                    <li><a href="{{ route('articles.show', 'kebijakan-pengiriman-retur') }}" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform">Kebijakan Pengiriman & Retur</a></li>
+                    <li><a href="{{ route('articles.show', 'garansi-layanan') }}" class="hover:text-gray-900 hover:translate-x-1 inline-block transition transform flex items-center gap-2">Garansi 6 Bulan <span class="bg-gray-900 text-white text-[10px] px-2 py-0.5 rounded-md">PRO</span></a></li>
                 </ul>
             </div>
             
@@ -351,7 +353,7 @@
 
     <!-- Floating WhatsApp Ikon -->
     <a href="https://wa.me/{{ $settings->whatsapp_number }}?text=Halo%20Admin%20{{ $settings->shop_name }},%20saya%20mau%20konsultasi%20kacamata." target="_blank" class="fixed bottom-6 right-6 md:bottom-8 md:right-8 z-50 bg-[#25D366] text-white p-4 rounded-full shadow-[0_15px_30px_-5px_rgba(37,211,102,0.4)] hover:-translate-y-2 hover:shadow-[0_20px_35px_-5px_rgba(37,211,102,0.6)] transition-all transform duration-300 flex items-center justify-center group">
-        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.89-4.443 9.89-9.892 0-5.446-4.446-9.892-9.893-9.892-5.452 0-9.892 4.446-9.892 9.893 0 1.99.546 3.78 1.584 5.326l-1.15 4.197 4.279-1.114zm8.682-10.298c-.347-.174-2.052-1.014-2.37-1.13-.318-.115-.55-.174-.783.174-.233.348-.897 1.13-1.1 1.362-.203.232-.405.261-.752.087-.348-.174-1.464-.54-2.79-1.733-1.03-1.03-1.724-2.302-1.927-2.65-.203-.348-.021-.537.153-.711.157-.158.348-.406.522-.609.174-.203.232-.348.348-.58.116-.232.058-.434-.029-.609-.087-.174-.783-1.885-1.072-2.58-.283-.679-.57-.587-.783-.598-.203-.01-.434-.01-.667-.01-.233 0-.609.087-.927.434-.319.348-1.218 1.189-1.218 2.899 0 1.71 1.247 3.363 1.421 3.595.174.232 2.45 3.743 5.937 5.249 3.487 1.506 3.487 1.004 4.068.946.58-.058 1.885-.773 2.146-1.52.261-.747.261-1.387.174-1.52-.087-.133-.319-.217-.666-.391z"/></svg>
+        <svg class="w-8 h-8" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
         <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap shadow-lg">Chat Admin</span>
     </a>
 
@@ -445,8 +447,8 @@
                     <p class="text-2xl font-black text-gray-900" x-text="`Rp${new Intl.NumberFormat('id-ID').format(wizard.price)}`"></p>
                 </div>
                 <button @click="orderViaWhatsApp()" class="theme-bg text-black font-extrabold py-3.5 px-8 rounded-xl transition hover-theme shadow-lg shadow-lime-200 flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.89-4.443 9.89-9.892 0-5.446-4.446-9.892-9.893-9.892-5.452 0-9.892 4.446-9.892 9.893 0 1.99.546 3.78 1.584 5.326l-1.15 4.197 4.279-1.114zm8.682-10.298c-.347-.174-2.052-1.014-2.37-1.13-.318-.115-.55-.174-.783.174-.233.348-.897 1.13-1.1 1.362-.203.232-.405.261-.752.087-.348-.174-1.464-.54-2.79-1.733-1.03-1.03-1.724-2.302-1.927-2.65-.203-.348-.021-.537.153-.711.157-.158.348-.406.522-.609.174-.203.232-.348.348-.58.116-.232.058-.434-.029-.609-.087-.174-.783-1.885-1.072-2.58-.283-.679-.57-.587-.783-.598-.203-.01-.434-.01-.667-.01-.233 0-.609.087-.927.434-.319.348-1.218 1.189-1.218 2.899 0 1.71 1.247 3.363 1.421 3.595.174.232 2.45 3.743 5.937 5.249 3.487 1.506 3.487 1.004 4.068.946.58-.058 1.885-.773 2.146-1.52.261-.747.261-1.387.174-1.52-.087-.133-.319-.217-.666-.391z"/></svg>
-                    Order via WhatsApp
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413Z"/></svg>
+                    Hubungi
                 </button>
             </div>
         </div>

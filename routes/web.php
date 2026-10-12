@@ -21,6 +21,26 @@ Route::get('/', function () {
     return view('welcome', compact('settings', 'categories', 'products', 'banners', 'testimonials', 'brands'));
 });
 
+Route::get('/produk/{product:slug}', function (Product $product) {
+    abort_unless($product->is_active, 404);
+    $settings = SiteSetting::first();
+    $product->load(['category', 'brand', 'variants']);
+    $related = Product::with(['variants'])->where('is_active', true)
+        ->where('category_id', $product->category_id)
+        ->where('id', '!=', $product->id)
+        ->take(3)->get();
+    $articles = \App\Support\Articles::all();
+    return view('product', compact('settings', 'product', 'related', 'articles'));
+})->name('products.show');
+
+Route::get('/artikel/{slug}', function (string $slug) {
+    $articles = \App\Support\Articles::all();
+    abort_unless(isset($articles[$slug]), 404);
+    $settings = SiteSetting::first();
+    $article = $articles[$slug];
+    return view('article', compact('settings', 'article', 'articles', 'slug'));
+})->name('articles.show');
+
 Route::post('/book-appointment', function (Request $request) {
     $data = $request->validate([
         'customer_name' => 'required|string',
