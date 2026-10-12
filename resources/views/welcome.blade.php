@@ -52,6 +52,11 @@
                     <a href="{{ $banner->link_url ?? '#' }}" class="block w-full h-full">
                         @if($banner->image_path)
                             <img src="{{ Storage::url($banner->image_path) }}" alt="{{ $banner->title }}" class="w-full h-full object-cover">
+                            @if($banner->title)
+                            <div class="absolute inset-0 bg-gradient-to-r from-gray-900/60 via-gray-900/20 to-transparent flex items-center pointer-events-none">
+                                <h2 class="text-white text-3xl md:text-5xl font-black uppercase tracking-wide px-6 md:px-12 max-w-2xl drop-shadow-lg">{{ $banner->title }}</h2>
+                            </div>
+                            @endif
                         @else
                             <!-- Dummy Slide Color (Jika belum ada gambar) -->
                             <div class="w-full h-full flex flex-col items-center justify-center text-white" style="background-color: {{ ['#84CC16', '#111827', '#374151'][$index % 3] }}">
@@ -120,6 +125,8 @@
                     </div>
                     @endif
 
+                    <!-- Foto varian bila ada; jatuh ke placeholder berwarna bila belum ada -->
+                    <img x-show="currentVariant?.image_path" :src="currentVariant?.image_path ? '/storage/' + currentVariant.image_path : ''" alt="" class="absolute inset-0 w-full h-full object-cover z-[5]">
                     <!-- Placeholder Gambar - Warnanya ganti sesuai varian! -->
                     <div class="w-full h-full flex items-center justify-center transition-colors duration-500 relative" :style="`background-color: ${currentVariant?.color_hex || '#e5e7eb'}20`">
                         <!-- Ikon Kacamata -->
@@ -156,12 +163,12 @@
                 </div>
                 <p class="text-xs text-gray-500 mt-2 font-medium" x-text="currentVariant?.color_name || 'Tidak ada varian'"></p>
 
-                <!-- Tombol Add to Cart / Pesan -->
+                <!-- Tombol Pilih (membuka detail produk) -->
                 <button @click="currentVariant?.stock > 0 ? openWizard('{{ addslashes($product->name) }}', currentVariant, {{ $product->promo_price ?? $product->base_price }}) : null" 
                         :class="currentVariant?.stock > 0 ? 'hover-theme cursor-pointer' : 'opacity-50 cursor-not-allowed bg-gray-400'"
                         :disabled="currentVariant?.stock <= 0"
                         class="mt-5 w-full bg-gray-900 text-white font-bold py-3 rounded-xl transition shadow-lg shadow-gray-200">
-                    <span x-text="currentVariant?.stock <= 0 ? 'Stok Habis' : 'Pilih Lensa & Checkout'"></span>
+                    <span x-text="currentVariant?.stock <= 0 ? 'Stok Habis' : 'Pilih'"></span>
                 </button>
             </div>
             @endforeach
@@ -348,7 +355,7 @@
         <span class="absolute right-14 bg-gray-900 text-white text-xs font-bold py-1.5 px-3 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none whitespace-nowrap shadow-lg">Chat Admin</span>
     </a>
 
-    <!-- LENS WIZARD MODAL (Checkout) -->
+    <!-- LENS WIZARD MODAL (Detail Produk) -->
     <div x-show="wizard.open" class="fixed inset-0 z-50 flex items-center justify-center p-4 bg-gray-900/70 backdrop-blur-sm" x-cloak>
         <div class="bg-white w-full max-w-2xl rounded-2xl shadow-2xl overflow-hidden flex flex-col max-h-[90vh]" @click.away="wizard.open = false">
             
@@ -363,11 +370,7 @@
             </div>
 
             <div class="p-6 overflow-y-auto flex-1 bg-white">
-                <form id="checkoutForm" action="/checkout" method="POST">
-                    <!-- Data Tersembunyi -->
-                    <input type="hidden" name="_token" value="{{ csrf_token() }}">
-                    <input type="hidden" name="variant_id" :value="wizard.variantId">
-                    <input type="hidden" name="total_price" :value="wizard.price">
+                <div id="wizardDetail">
 
                     <!-- Pilihan Lensa -->
                     <div class="mb-6">
@@ -400,70 +403,50 @@
                                 <div class="col-span-1 font-extrabold text-sm text-gray-700">Kanan (OD)</div>
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 block mb-1">SPH</label>
-                                    <input type="text" name="r_sph" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-1.00">
+                                    <input type="text" name="r_sph" x-model="wizard.rx.r_sph" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-1.00">
                                 </div>
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 block mb-1">CYL</label>
-                                    <input type="text" name="r_cyl" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-0.50">
+                                    <input type="text" name="r_cyl" x-model="wizard.rx.r_cyl" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-0.50">
                                 </div>
                                 <div>
                                     <label class="text-xs font-bold text-gray-500 block mb-1">AXIS</label>
-                                    <input type="text" name="r_axis" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="180">
+                                    <input type="text" name="r_axis" x-model="wizard.rx.r_axis" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="180">
                                 </div>
                             </div>
                             
                             <div class="grid grid-cols-4 gap-4 items-center">
                                 <div class="col-span-1 font-extrabold text-sm text-gray-700">Kiri (OS)</div>
                                 <div>
-                                    <input type="text" name="l_sph" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-1.00">
+                                    <input type="text" name="l_sph" x-model="wizard.rx.l_sph" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-1.00">
                                 </div>
                                 <div>
-                                    <input type="text" name="l_cyl" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-0.50">
+                                    <input type="text" name="l_cyl" x-model="wizard.rx.l_cyl" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="-0.50">
                                 </div>
                                 <div>
-                                    <input type="text" name="l_axis" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="180">
+                                    <input type="text" name="l_axis" x-model="wizard.rx.l_axis" class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="180">
                                 </div>
                             </div>
                             
                             <div class="mt-4 pt-4 border-t border-gray-200">
                                 <label class="text-xs font-bold text-gray-500 block mb-1">Pupillary Distance (PD) - mm</label>
-                                <input type="text" name="pd" class="w-1/3 border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="62">
+                                <input type="text" name="pd" x-model="wizard.rx.pd" class="w-1/3 border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="62">
                             </div>
                         </div>
                     </div>
 
-                    <!-- Data Pelanggan -->
-                    <div>
-                        <h3 class="font-bold text-sm mb-3 text-gray-900">Detail Pengiriman</h3>
-                        <div class="bg-gray-50 p-5 rounded-xl border border-gray-100">
-                            <div class="grid grid-cols-2 gap-4 mb-4">
-                                <div>
-                                    <label class="text-xs font-bold text-gray-500 block mb-1">Nama Lengkap</label>
-                                    <input type="text" name="customer_name" required class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none">
-                                </div>
-                                <div>
-                                    <label class="text-xs font-bold text-gray-500 block mb-1">Nomor WhatsApp</label>
-                                    <input type="text" name="customer_whatsapp" required class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" placeholder="0812...">
-                                </div>
-                            </div>
-                            <div>
-                                <label class="text-xs font-bold text-gray-500 block mb-1">Alamat Lengkap</label>
-                                <textarea name="shipping_address" required class="w-full border-gray-200 rounded-lg p-2.5 text-sm font-medium focus:ring-2 focus:ring-gray-900 outline-none" rows="2" placeholder="Nama Jalan, Kec, Kota..."></textarea>
-                            </div>
-                        </div>
-                    </div>
-                </form>
+                </div>
             </div>
 
-            <!-- Total & Checkout Btn -->
+            <!-- Total & Tombol Order -->
             <div class="p-6 border-t border-gray-100 bg-white flex justify-between items-center shadow-[0_-10px_20px_-5px_rgba(0,0,0,0.05)]">
                 <div>
                     <p class="text-xs font-bold text-gray-400 uppercase tracking-widest mb-1">Total Harga</p>
                     <p class="text-2xl font-black text-gray-900" x-text="`Rp${new Intl.NumberFormat('id-ID').format(wizard.price)}`"></p>
                 </div>
-                <button type="submit" form="checkoutForm" class="theme-bg text-black font-extrabold py-3.5 px-8 rounded-xl transition hover-theme shadow-lg shadow-lime-200 flex items-center gap-2">
-                    <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"></path></svg>
-                    Checkout via WA
+                <button @click="orderViaWhatsApp()" class="theme-bg text-black font-extrabold py-3.5 px-8 rounded-xl transition hover-theme shadow-lg shadow-lime-200 flex items-center gap-2">
+                    <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24"><path d="M.057 24l1.687-6.163c-1.041-1.804-1.588-3.849-1.587-5.946.003-6.556 5.338-11.891 11.893-11.891 3.181.001 6.167 1.24 8.413 3.488 2.245 2.248 3.481 5.236 3.48 8.414-.003 6.557-5.338 11.892-11.893 11.892-1.99-.001-3.951-.5-5.688-1.448l-6.305 1.654zm6.597-3.807c1.676.995 3.276 1.591 5.392 1.592 5.448 0 9.89-4.443 9.89-9.892 0-5.446-4.446-9.892-9.893-9.892-5.452 0-9.892 4.446-9.892 9.893 0 1.99.546 3.78 1.584 5.326l-1.15 4.197 4.279-1.114zm8.682-10.298c-.347-.174-2.052-1.014-2.37-1.13-.318-.115-.55-.174-.783.174-.233.348-.897 1.13-1.1 1.362-.203.232-.405.261-.752.087-.348-.174-1.464-.54-2.79-1.733-1.03-1.03-1.724-2.302-1.927-2.65-.203-.348-.021-.537.153-.711.157-.158.348-.406.522-.609.174-.203.232-.348.348-.58.116-.232.058-.434-.029-.609-.087-.174-.783-1.885-1.072-2.58-.283-.679-.57-.587-.783-.598-.203-.01-.434-.01-.667-.01-.233 0-.609.087-.927.434-.319.348-1.218 1.189-1.218 2.899 0 1.71 1.247 3.363 1.421 3.595.174.232 2.45 3.743 5.937 5.249 3.487 1.506 3.487 1.004 4.068.946.58-.058 1.885-.773 2.146-1.52.261-.747.261-1.387.174-1.52-.087-.133-.319-.217-.666-.391z"/></svg>
+                    Order via WhatsApp
                 </button>
             </div>
         </div>
@@ -471,6 +454,9 @@
 
     <!-- Script Logika Frontend Alpine.js -->
     <script>
+        const SHOP_NAME = @json($settings->shop_name ?? 'Optik Dwi Putra');
+        const WHATSAPP_NUMBER = @json($settings->whatsapp_number ?? '628000000000');
+
         document.addEventListener('alpine:init', () => {
             Alpine.data('store', () => ({
                 category: 'all',
@@ -483,14 +469,34 @@
                     productName: '',
                     variantName: '',
                     variantId: null,
-                    price: 0
+                    price: 0,
+                    rx: { r_sph: '', r_cyl: '', r_axis: '', l_sph: '', l_cyl: '', l_axis: '', pd: '' }
                 },
                 openWizard(name, variant, price) {
                     this.wizard.productName = name;
                     this.wizard.variantName = variant.color_name;
                     this.wizard.variantId = variant.id;
                     this.wizard.price = price;
+                    this.wizard.lensType = 'Frame Only';
+                    this.wizard.rx = { r_sph: '', r_cyl: '', r_axis: '', l_sph: '', l_cyl: '', l_axis: '', pd: '' };
                     this.wizard.open = true;
+                },
+                orderViaWhatsApp() {
+                    const w = this.wizard;
+                    const total = 'Rp' + new Intl.NumberFormat('id-ID').format(w.price);
+                    let text = `Halo ${SHOP_NAME}, saya mau order kacamata via website.\n\n` +
+                        `*Produk:* ${w.productName} (Warna: ${w.variantName})\n` +
+                        `*Lensa:* ${w.lensType}\n`;
+                    if (w.lensType !== 'Frame Only') {
+                        const r = w.rx;
+                        const eye = (sph, cyl, axis) => `SPH ${sph || '-'}, CYL ${cyl || '-'}, AXIS ${axis || '-'}`;
+                        text += `*Resep:*\n` +
+                            `OD (Kanan): ${eye(r.r_sph, r.r_cyl, r.r_axis)}\n` +
+                            `OS (Kiri): ${eye(r.l_sph, r.l_cyl, r.l_axis)}\n` +
+                            `PD: ${r.pd || '-'} mm\n`;
+                    }
+                    text += `*Total Harga:* ${total}\n\nMohon info pembayaran dan pengiriman. Terima kasih.`;
+                    window.open(`https://wa.me/${WHATSAPP_NUMBER}?text=${encodeURIComponent(text)}`, '_blank');
                 }
             }));
 

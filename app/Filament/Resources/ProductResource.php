@@ -44,6 +44,8 @@ class ProductResource extends Resource
                                 ->required()->label('Nama Warna (Cth: Jet Black)'),
                             Forms\Components\ColorPicker::make('color_hex')
                                 ->required()->label('Pilih Warna Hex'),
+                            Forms\Components\FileUpload::make('image_path')
+                                ->image()->directory('products')->label('Foto Varian'),
                             Forms\Components\TextInput::make('sku')
                                 ->maxLength(255)->label('Kode SKU'),
                             Forms\Components\TextInput::make('stock')

@@ -19,7 +19,7 @@ class BannerResource extends Resource {
         return $form->schema([
             Forms\Components\Section::make('Detail Banner')->schema([
                 Forms\Components\FileUpload::make('image_path')->image()->directory('banners')->label('Gambar Banner (Rasio ideal 21:9 atau 1200x400px)'),
-                Forms\Components\TextInput::make('title')->label('Judul Teks (Jika tidak ada gambar)'),
+                Forms\Components\TextInput::make('title')->label('Judul Promo (tampil sebagai teks di banner)'),
                 Forms\Components\TextInput::make('link_url')->url()->label('Link Tujuan (Opsional)'),
                 Forms\Components\Grid::make(2)->schema([
                     Forms\Components\TextInput::make('sort_order')->numeric()->default(0)->label('Urutan Tampil'),
