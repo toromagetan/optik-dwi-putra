@@ -172,3 +172,12 @@ Pemilik memutuskan pada awal pembangunan:
 3. **K-4 untuk pembangunan: katalog awal = 10 produk dummy, masing-masing 3 gambar** (gambar contoh hasil generator program; diganti foto asli melalui panel admin).
 4. **K-2 untuk pembangunan: Laravel 13 + PHP 8.3 + MySQL** (pola tumpukan pemilik saat ini), dikonfirmasi ulang terhadap hosting pada Fase 7.
 5. **K-6 bawaan diterapkan:** keranjang persisten di browser yang sama (localStorage), melewati penyegaran halaman.
+
+### 11.2 Penambahan atas instruksi pemilik — 24 Oktober 2026 (banner promo)
+
+Pemilik meminta tampilan **dikombinasikan dengan versi sebelumnya yang memiliki banner besar terkait promo**. Maka ditambahkan **modul Banner Promo**:
+
+- Tabel `banners` (di luar 8 tabel awal blueprint, atas instruksi pemilik): `title`, `subtitle`, `image_path`, `link_url`, `is_active`, `sort_order`.
+- Beranda menampilkan **slider banner besar** tepat di bawah hero: gambar penuh + gradasi gelap + judul promo sebagai teks besar di atas gambar (pola versi sebelumnya), bergeser otomatis 6 detik, jeda saat kursor di atasnya, panah & titik navigasi, geser sentuh di ponsel. Banner tanpa gambar tampil sebagai panel gradasi emerald.
+- Dikelola penuh dari panel admin (**Banner Promo**): tambah/ubah/hapus, unggah gambar tervalidasi isi berkas (maks 4 MB), tautan hanya http/https atau path internal, aktif/nonaktif, urutan tampil (tombol naik/turun). Semua aksi tercatat di audit log.
+- Data contoh: 3 banner dengan naskah rekomendasi versi sebelumnya (Promo Akhir Tahun, Koleksi Premium, Periksa Mata Gratis) dan gambar ilustrasi generator berlabel "Foto contoh (dummy)".

@@ -64,6 +64,64 @@ class DummyImageGenerator
         return $results;
     }
 
+    /**
+     * Hasilkan satu gambar banner promo lebar (1680x560) ke disk publik.
+     * Tiga suasana emerald/emas bergantian menurut indeks.
+     */
+    public function generateBanner(int $index, string $title): string
+    {
+        $scenes = [
+            [[4, 47, 38], [6, 95, 70], [216, 178, 90]],
+            [[24, 24, 27], [63, 63, 70], [216, 178, 90]],
+            [[6, 78, 59], [16, 122, 87], [240, 240, 230]],
+        ];
+        [$from, $to, $frameRgb] = $scenes[$index % count($scenes)];
+
+        $w = 1680;
+        $h = 560;
+        $img = imagecreatetruecolor($w, $h);
+        for ($x = 0; $x < $w; $x++) {
+            $t = $x / $w;
+            $color = imagecolorallocate($img,
+                (int) ($from[0] + ($to[0] - $from[0]) * $t),
+                (int) ($from[1] + ($to[1] - $from[1]) * $t),
+                (int) ($from[2] + ($to[2] - $from[2]) * $t));
+            imageline($img, $x, 0, $x, $h, $color);
+        }
+        // Lingkaran dekoratif tembus pandang.
+        $glow = imagecolorallocatealpha($img, 255, 255, 255, 112);
+        imagefilledellipse($img, 1470, -60, 520, 520, $glow);
+        imagefilledellipse($img, 120, 640, 420, 420, $glow);
+
+        // Ilustrasi kacamata besar di sisi kanan.
+        $c = $this->colors($img, $frameRgb);
+        imagesetthickness($img, 18);
+        foreach ([[930, 160], [1300, 160]] as [$x, $y]) {
+            $this->filledRoundedRect($img, $x, $y, $x + 300, $y + 230, 64, $c['lens']);
+            $this->outlineRoundedRect($img, $x, $y, $x + 300, $y + 230, 64, $c['frame']);
+            imagefilledpolygon($img, [$x + 46, $y + 190, $x + 150, $y + 34, $x + 205, $y + 34, $x + 100, $y + 190], $c['shine']);
+        }
+        imagearc($img, 1115, 195, 100, 66, 180, 360, $c['frame']);
+        imageline($img, 930, 195, 810, 160, $c['frame']);
+        imageline($img, 1600, 195, 1660, 170, $c['frame']);
+
+        // Label dummy kecil di kanan bawah.
+        $white = imagecolorallocatealpha($img, 255, 255, 255, 30);
+        if ($this->font) {
+            imagettftext($img, 17, 0, 1300, 498, $white, $this->font, 'Foto contoh (dummy)');
+        }
+
+        ob_start();
+        imagejpeg($img, null, 88);
+        $binary = (string) ob_get_clean();
+        imagedestroy($img);
+
+        $path = 'banners/dummy-'.($index + 1).'.jpg';
+        Storage::disk('public')->put($path, $binary);
+
+        return $path;
+    }
+
     private function canvas(array $bg)
     {
         $img = imagecreatetruecolor(self::W, self::H);

@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\DashboardController;
@@ -42,6 +43,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('products/{product}/channels', [ProductChannelController::class, 'store'])->name('products.channels.store');
     Route::put('products/{product}/channels/{channel}', [ProductChannelController::class, 'update'])->name('products.channels.update');
     Route::delete('products/{product}/channels/{channel}', [ProductChannelController::class, 'destroy'])->name('products.channels.destroy');
+
+    Route::resource('banners', BannerController::class)->except(['show']);
+    Route::post('banners/{banner}/move', [BannerController::class, 'move'])->name('banners.move');
 
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('brands', BrandController::class)->except(['show']);

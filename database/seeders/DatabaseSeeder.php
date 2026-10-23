@@ -15,6 +15,7 @@ class DatabaseSeeder extends Seeder
             AdminUserSeeder::class,
             StoreSettingSeeder::class,
             CatalogSeeder::class,
+            BannerSeeder::class,
         ]);
     }
 }

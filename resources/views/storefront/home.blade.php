@@ -26,6 +26,91 @@
         </div>
     </section>
 
+    {{-- Banner Promo besar (slider) — pola versi sebelumnya, bahasa desain saat ini --}}
+    @if($banners->isNotEmpty())
+        <section class="mx-auto max-w-7xl px-4 pt-8 lg:px-8">
+            <div id="promo-slider" class="group relative aspect-[16/9] w-full overflow-hidden rounded-3xl bg-brand-950 shadow-lg sm:aspect-[21/8] lg:aspect-[21/6]">
+                <div id="promo-track" class="flex h-full transition-transform duration-700 ease-in-out">
+                    @foreach($banners as $banner)
+                        <div class="relative h-full w-full flex-shrink-0">
+                            @if($banner->link_url)<a href="{{ $banner->link_url }}" class="block h-full w-full">@endif
+                                @if($banner->image_path)
+                                    <img src="{{ \Illuminate\Support\Facades\Storage::url($banner->image_path) }}" alt="{{ $banner->title }}" class="h-full w-full object-cover">
+                                @else
+                                    <div class="h-full w-full bg-gradient-to-br from-brand-900 via-brand-800 to-brand-600"></div>
+                                @endif
+                                @if($banner->title || $banner->subtitle)
+                                    <div class="pointer-events-none absolute inset-0 flex items-center bg-gradient-to-r from-brand-950/85 via-brand-950/45 to-brand-950/10 sm:from-brand-950/70 sm:via-brand-950/30 sm:to-transparent">
+                                        <div class="max-w-2xl px-6 sm:px-10 lg:px-14">
+                                            @if($banner->title)
+                                                <h2 class="text-2xl font-black uppercase leading-tight tracking-wide text-white drop-shadow-lg sm:text-4xl lg:text-5xl">{{ $banner->title }}</h2>
+                                            @endif
+                                            @if($banner->subtitle)
+                                                <p class="mt-2 text-sm font-medium text-brand-50/90 sm:text-base">{{ $banner->subtitle }}</p>
+                                            @endif
+                                        </div>
+                                    </div>
+                                @endif
+                            @if($banner->link_url)</a>@endif
+                        </div>
+                    @endforeach
+                </div>
+
+                @if($banners->count() > 1)
+                    <button id="promo-prev" type="button" aria-label="Banner sebelumnya" class="absolute left-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-brand-950 opacity-0 shadow-lg backdrop-blur transition hover:bg-white group-hover:opacity-100 md:flex">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+                    </button>
+                    <button id="promo-next" type="button" aria-label="Banner berikutnya" class="absolute right-4 top-1/2 z-10 hidden h-11 w-11 -translate-y-1/2 items-center justify-center rounded-full bg-white/85 text-brand-950 opacity-0 shadow-lg backdrop-blur transition hover:bg-white group-hover:opacity-100 md:flex">
+                        <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.5" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+                    </button>
+                    <div class="absolute bottom-4 left-1/2 z-10 flex -translate-x-1/2 gap-1.5">
+                        @foreach($banners as $i => $banner)
+                            <button type="button" data-dot="{{ $i }}" aria-label="Ke banner {{ $i + 1 }}" class="h-2 w-2 rounded-full bg-white/40 transition-all"></button>
+                        @endforeach
+                    </div>
+                @endif
+            </div>
+        </section>
+        <script>
+        (function () {
+            const slider = document.getElementById('promo-slider');
+            const track = document.getElementById('promo-track');
+            if (!slider || !track) return;
+            const total = track.children.length;
+            const dots = slider.querySelectorAll('[data-dot]');
+            let cur = 0, timer = null, touchX = null;
+            function go(i) {
+                cur = ((i % total) + total) % total;
+                track.style.transform = 'translateX(-' + (cur * 100) + '%)';
+                dots.forEach(function (d, j) {
+                    d.classList.toggle('bg-white', j === cur);
+                    d.classList.toggle('w-6', j === cur);
+                    d.classList.toggle('bg-white/40', j !== cur);
+                });
+            }
+            function start() { stop(); if (total > 1) timer = setInterval(function () { go(cur + 1); }, 6000); }
+            function stop() { if (timer) clearInterval(timer); timer = null; }
+            slider.addEventListener('mouseenter', stop);
+            slider.addEventListener('mouseleave', start);
+            slider.addEventListener('touchstart', function (e) { touchX = e.touches[0].clientX; stop(); }, { passive: true });
+            slider.addEventListener('touchend', function (e) {
+                if (touchX !== null) {
+                    const dx = e.changedTouches[0].clientX - touchX;
+                    if (Math.abs(dx) > 40) go(cur + (dx < 0 ? 1 : -1));
+                    touchX = null;
+                }
+                start();
+            }, { passive: true });
+            const prev = document.getElementById('promo-prev');
+            const next = document.getElementById('promo-next');
+            if (prev) prev.addEventListener('click', function () { go(cur - 1); });
+            if (next) next.addEventListener('click', function () { go(cur + 1); });
+            dots.forEach(function (d, j) { d.addEventListener('click', function () { go(j); }); });
+            go(0); start();
+        })();
+        </script>
+    @endif
+
     {{-- Kategori --}}
     @if($categories->isNotEmpty())
         <section class="mx-auto max-w-7xl px-4 pt-10 lg:px-8">
