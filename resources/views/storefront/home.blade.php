@@ -173,4 +173,56 @@
         @endif
       </div>
     </section>
+    {{-- Ulasan pelanggan --}}
+    @if(($reviews ?? collect())->isNotEmpty())
+        @php($avgRating = round($reviews->avg('rating'), 1))
+        @php($shotReviews = $reviews->filter(fn ($r) => $r->image_path))
+        @php($textReviews = $reviews->filter(fn ($r) => ! $r->image_path))
+        <section class="mx-auto max-w-7xl px-4 py-16 lg:px-8">
+            <div class="flex flex-wrap items-end justify-between gap-3">
+                <div>
+                    <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-gold-600">Testimoni</p>
+                    <h2 class="mt-1.5 text-2xl font-extrabold text-brand-950 sm:text-3xl">Apa Kata Pelanggan</h2>
+                    <p class="mt-1.5 text-sm text-stone-500">Ulasan asli pelanggan dari WhatsApp, Google, dan media sosial kami.</p>
+                </div>
+                <span class="inline-flex items-center gap-2 rounded-full bg-gold-500/10 px-4 py-2 text-sm font-extrabold text-brand-900 ring-1 ring-gold-500/40">
+                    <span class="text-gold-500">★</span> {{ number_format($avgRating, 1) }} <span class="font-semibold text-stone-500">· {{ $reviews->count() }} ulasan</span>
+                </span>
+            </div>
+
+            @if($shotReviews->isNotEmpty())
+                <div class="no-scrollbar -mx-4 mt-8 flex gap-5 overflow-x-auto px-4 pb-1 lg:mx-0 lg:px-0">
+                    @foreach($shotReviews as $review)
+                        <figure class="w-52 shrink-0 sm:w-60">
+                            <img src="{{ \Illuminate\Support\Facades\Storage::url($review->image_path) }}" alt="Tangkapan layar ulasan {{ $review->name }}" loading="lazy"
+                                class="aspect-[3/4] w-full rounded-[1.75rem] object-cover object-top shadow-sm ring-1 ring-stone-200">
+                            <figcaption class="mt-3 px-1">
+                                <span class="text-gold-500">@for($i = 1; $i <= 5; $i++){{ $i <= $review->rating ? '★' : '☆' }}@endfor</span>
+                                <span class="mt-0.5 block text-sm font-bold text-brand-950">{{ $review->name }}@if($review->location) · {{ $review->location }}@endif</span>
+                                <span class="block text-xs text-stone-500">{{ $review->source }}</span>
+                            </figcaption>
+                        </figure>
+                    @endforeach
+                </div>
+            @endif
+
+            @if($textReviews->isNotEmpty())
+                <div class="mt-8 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+                    @foreach($textReviews as $review)
+                        <blockquote class="flex flex-col rounded-[1.75rem] bg-white p-6 shadow-sm ring-1 ring-stone-100">
+                            <span class="text-lg tracking-wide text-gold-500">@for($i = 1; $i <= 5; $i++){{ $i <= $review->rating ? '★' : '☆' }}@endfor</span>
+                            <p class="mt-2.5 flex-1 text-[15px] leading-relaxed text-stone-700">{{ $review->text }}</p>
+                            <footer class="mt-4 flex items-center gap-3">
+                                <span class="flex h-10 w-10 items-center justify-center rounded-full bg-brand-100 text-sm font-extrabold text-brand-800">{{ $review->initial() }}</span>
+                                <span>
+                                    <span class="block text-sm font-bold text-brand-950">{{ $review->name }}</span>
+                                    <span class="block text-xs text-stone-500">{{ collect([$review->location, $review->source])->filter()->join(' · ') }}</span>
+                                </span>
+                            </footer>
+                        </blockquote>
+                    @endforeach
+                </div>
+            @endif
+        </section>
+    @endif
 @endsection

@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\Banner;
 use App\Models\Category;
 use App\Models\Product;
+use App\Models\Review;
 use App\Models\StoreSetting;
 
 class HomeController extends Controller
@@ -36,6 +37,7 @@ class HomeController extends Controller
             'categories' => $categories,
             'promoText' => StoreSetting::get('promo_text'),
             'banners' => Banner::active()->get(),
+            'reviews' => Review::active()->get(),
         ]);
     }
 }

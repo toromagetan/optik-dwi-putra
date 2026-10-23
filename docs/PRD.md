@@ -199,3 +199,12 @@ Pemilik meminta dicoba **warna oranye** dan tampilan yang **tidak kaku**, dengan
 - Bahasa tampilan mengikuti ritme Zona Kacamata: kartu produk **tanpa bingkai/kotak** (gambar bersudut sangat bulat, teks lega di bawahnya), grid berjarak longgar, tombol berbentuk **pill**, judul seksi lebih besar dengan label kecil di atasnya, ubin kategori lembut tanpa garis, dan seksi Produk Terbaru sebagai **pita lembut oranye muda selebar layar**. Hero lebih lapang dengan judul lebih besar.
 - Panel admin mengikuti warna lewat token; tata letaknya tetap utilitarian.
 - Gambar contoh diselaraskan: suasana banner & pita label menjadi oranye/cokelat-oranye.
+
+### 11.5 Header ramping + Ulasan Pelanggan — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik menilai header terasa mengganggu dan belum ada tampilan ulasan berisi gambar tangkapan layar:
+
+- **Header dirampingkan**: strip promo lebih tipis; header lebih rendah (padding & logo diperkecil); **baris cari kedua di mobile dicabut** — pencarian mobile kini berupa tombol ikon kaca pembesar di header yang membuka panel pencarian saat diketuk, sehingga header mobile tinggal satu baris (~60px) yang menempel saat scroll.
+- **Modul Ulasan Pelanggan** (tabel `reviews` di luar 8 tabel blueprint, mengikuti pola Banner): nama, kota, sumber (Google/WhatsApp/Instagram/Tokopedia/Shopee/Lainnya), rating 1–5, isi ulasan, **gambar tangkapan layar opsional** (tervalidasi isi MIME, maks 4 MB), aktif/nonaktif, urutan tampil + geser urutan; CRUD penuh di panel admin "Ulasan Pelanggan" + audit log.
+- **Seksi "Apa Kata Pelanggan"** di beranda (sesudah Produk Terbaru): ringkasan rating rata-rata + jumlah ulasan; ulasan bergambar tampil sebagai kartu tangkapan layar tinggi (geser menyamping di mobile); ulasan teks sebagai kartu testimoni berisi bintang, isi, dan identitas pelanggan.
+- Data contoh: 5 ulasan dummy (2 bergambar tangkapan layar chat WA & kartu Google hasil generator, berlabel dummy) — diganti ulasan asli lewat panel admin.

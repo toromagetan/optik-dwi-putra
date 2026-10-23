@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\DashboardController;
 use App\Http\Controllers\Admin\ProductChannelController;
 use App\Http\Controllers\Admin\ProductController;
 use App\Http\Controllers\Admin\ProductImageController;
+use App\Http\Controllers\Admin\ReviewController;
 use App\Http\Controllers\Admin\SettingController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\Storefront\CartController;
@@ -46,6 +47,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
 
     Route::resource('banners', BannerController::class)->except(['show']);
     Route::post('banners/{banner}/move', [BannerController::class, 'move'])->name('banners.move');
+
+    Route::resource('reviews', ReviewController::class)->except(['show']);
+    Route::post('reviews/{review}/move', [ReviewController::class, 'move'])->name('reviews.move');
 
     Route::resource('categories', CategoryController::class)->except(['show']);
     Route::resource('brands', BrandController::class)->except(['show']);
