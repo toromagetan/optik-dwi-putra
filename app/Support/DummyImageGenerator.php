@@ -71,9 +71,9 @@ class DummyImageGenerator
     public function generateBanner(int $index, string $title): string
     {
         $scenes = [
-            [[4, 47, 38], [6, 95, 70], [216, 178, 90]],
-            [[24, 24, 27], [63, 63, 70], [216, 178, 90]],
-            [[6, 78, 59], [16, 122, 87], [240, 240, 230]],
+            [[11, 39, 73], [23, 95, 171], [245, 166, 35]],
+            [[24, 24, 27], [63, 63, 70], [245, 166, 35]],
+            [[18, 61, 109], [53, 124, 214], [240, 240, 230]],
         ];
         [$from, $to, $frameRgb] = $scenes[$index % count($scenes)];
 
@@ -223,7 +223,7 @@ class DummyImageGenerator
 
     private function labelBand($img, string $name, string $viewLabel, string $sku): void
     {
-        $band = imagecolorallocatealpha($img, 6, 60, 46, 18);
+        $band = imagecolorallocatealpha($img, 11, 39, 73, 18);
         imagefilledrectangle($img, 0, self::H - 108, self::W, self::H, $band);
         $white = imagecolorallocate($img, 255, 255, 255);
         $soft = imagecolorallocate($img, 190, 230, 215);

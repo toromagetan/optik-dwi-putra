@@ -181,3 +181,12 @@ Pemilik meminta tampilan **dikombinasikan dengan versi sebelumnya yang memiliki 
 - Beranda menampilkan **slider banner besar** tepat di bawah hero: gambar penuh + gradasi gelap + judul promo sebagai teks besar di atas gambar (pola versi sebelumnya), bergeser otomatis 6 detik, jeda saat kursor di atasnya, panah & titik navigasi, geser sentuh di ponsel. Banner tanpa gambar tampil sebagai panel gradasi emerald.
 - Dikelola penuh dari panel admin (**Banner Promo**): tambah/ubah/hapus, unggah gambar tervalidasi isi berkas (maks 4 MB), tautan hanya http/https atau path internal, aktif/nonaktif, urutan tampil (tombol naik/turun). Semua aksi tercatat di audit log.
 - Data contoh: 3 banner dengan naskah rekomendasi versi sebelumnya (Promo Akhir Tahun, Koleksi Premium, Periksa Mata Gratis) dan gambar ilustrasi generator berlabel "Foto contoh (dummy)".
+
+### 11.3 Perubahan tema warna — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik meminta warna lain yang lebih fresh dengan acuan **Optik Djava** dan **Zona Kacamata**. Hasil riset tampilan kedua situs (24 Okt 2026): Optik Djava memakai merah pekat (#a90000) di atas putih; Zona Kacamata memakai aksen biru **#175fab** dengan aksen amber **#f5a623** di atas putih/hitam bersih. Tema toko diubah menjadi:
+
+- Warna utama `brand` = **biru segar** berjangkar #175fab (Zona Kacamata) — menggantikan emerald; seluruh tampilan storefront & panel admin mengikuti lewat token warna.
+- Aksen `gold` = **amber #f5a623** — kehangatan visual (jembatan dari keberanian warna Djava) untuk penekanan harga/promo.
+- Warna semantik TIDAK berubah: hijau WhatsApp (#25D366), hijau status aktif/terbit, dan amber peringatan tetap sebagaimana konvensi.
+- Gambar contoh ikut diselaraskan: suasana banner menjadi biru/amber dan latar produk mint diganti biru es.

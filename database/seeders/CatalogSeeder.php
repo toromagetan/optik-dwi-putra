@@ -42,7 +42,7 @@ class CatalogSeeder extends Seeder
 
         // [nama, merek, kategori, sku, harga, stok, ketersediaan, unggulan, palet bg, palet frame, deskripsi]
         $products = [
-            ['Frame Titanium Ringan A1', 'DwiVision', 'Frame Kacamata', 'FRM-DV-A1-BLK', 450000, 12, 'available', true, [214, 232, 224], [35, 40, 45],
+            ['Frame Titanium Ringan A1', 'DwiVision', 'Frame Kacamata', 'FRM-DV-A1-BLK', 450000, 12, 'available', true, [214, 230, 246], [35, 40, 45],
                 'Frame titanium ultraringan (hanya 9 gram) dengan engsel fleksibel dan nose pad silikon. Nyaman dipakai seharian, cocok untuk lensa minus tinggi. Garansi engsel 6 bulan.'],
             ['Frame Acetate Klasik Retro B2', 'Arunika', 'Frame Kacamata', 'FRM-AR-B2-TOR', 325000, 8, 'available', true, [238, 228, 214], [122, 74, 38],
                 'Frame acetate motif tortoise bergaya retro klasik. Material tebal premium dengan finishing poles tangan. Ukuran 52-20-145, cocok untuk wajah sedang hingga lebar.'],
@@ -52,7 +52,7 @@ class CatalogSeeder extends Seeder
                 'Lensa indeks 1.56 dengan lapisan bluecut untuk menyaring cahaya biru dari layar, plus anti-UV dan anti-refleksi. Harga per pasang, sudah termasuk pemasangan standar.'],
             ['Lensa Photochromic Transisi 1.61', 'Arunika', 'Lensa', 'LNS-AR-PC161', 685000, 6, 'available', false, [232, 224, 238], [84, 64, 120],
                 'Lensa photochromic yang berubah gelap otomatis di bawah sinar matahari dan kembali bening di dalam ruangan. Indeks 1.61 lebih tipis untuk minus sedang–tinggi. Harga per pasang.'],
-            ['Lensa Progresif Premium 1.67', 'DwiVision', 'Lensa', 'LNS-DV-PG167', 1450000, 3, 'contact_for_availability', false, [224, 236, 228], [36, 92, 66],
+            ['Lensa Progresif Premium 1.67', 'DwiVision', 'Lensa', 'LNS-DV-PG167', 1450000, 3, 'contact_for_availability', false, [226, 234, 246], [23, 80, 140],
                 'Lensa progresif premium indeks 1.67 dengan koridor pandang luas untuk jarak jauh, menengah, dan baca dalam satu lensa. Wajib fitting & pengukuran segmen di toko sebelum dipesan.'],
             ['Sunglasses Polarized Wayfarer D4', 'Kala Eyewear', 'Kacamata Hitam', 'SUN-KL-D4-BLK', 399000, 15, 'available', true, [232, 232, 226], [28, 30, 34],
                 'Kacamata hitam model wayfarer dengan lensa polarized anti-silau dan perlindungan UV400. Cocok untuk menyetir dan aktivitas luar ruangan. Termasuk hard case dan lap microfiber.'],
@@ -60,7 +60,7 @@ class CatalogSeeder extends Seeder
                 'Sunglasses aviator klasik rangka emas dengan lensa gradasi hijau G-15. Perlindungan UV400, bantalan hidung dapat disetel. Termasuk soft case kulit sintetis.'],
             ['Softlens Bening Bulanan Plano', 'DwiVision', 'Softlens', 'SFT-DV-CLR30', 98000, 40, 'available', false, [220, 238, 244], [58, 110, 140],
                 'Softlens bening plano (tanpa minus) untuk pemakaian bulanan, kadar air 55% — nyaman hingga 8 jam. Harga per pasang. Tersedia juga varian minus hingga -6.00 di toko.'],
-            ['Set Perawatan Kacamata & Softlens', 'Kala Eyewear', 'Aksesoris', 'ACC-KL-SET01', 45000, 60, 'available', false, [236, 240, 232], [70, 96, 60],
+            ['Set Perawatan Kacamata & Softlens', 'Kala Eyewear', 'Aksesoris', 'ACC-KL-SET01', 45000, 60, 'available', false, [238, 240, 244], [90, 90, 96],
                 'Paket perawatan lengkap: cairan pembersih lensa 100 ml, cairan softlens 60 ml, lap microfiber, case kacamata, dan case softlens. Praktis untuk pemakaian sehari-hari dan perjalanan.'],
         ];
 
