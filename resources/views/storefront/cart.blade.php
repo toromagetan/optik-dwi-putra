@@ -32,18 +32,18 @@
                 <p class="mt-2 text-xs leading-relaxed text-stone-400">Belum termasuk ongkos kirim bila ada. Harga & stok final dikonfirmasi admin.</p>
 
                 <div class="mt-6 space-y-3">
-                    <a id="wa-button" href="#" target="_blank" rel="noopener" class="hidden w-full items-center justify-center gap-2 rounded-xl bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white shadow transition hover:brightness-95">
+                    <a id="wa-button" href="#" target="_blank" rel="noopener" class="hidden w-full items-center justify-center gap-2 rounded-full bg-[#25D366] px-5 py-3.5 text-sm font-extrabold text-white shadow transition hover:brightness-95">
                         Pesan via WhatsApp
                     </a>
-                    <div id="telegram-box" class="hidden rounded-xl border border-sky-200 bg-sky-50 p-4">
+                    <div id="telegram-box" class="hidden rounded-3xl border border-sky-200 bg-sky-50 p-5">
                         <p class="text-sm font-bold text-sky-900">Pesan via Telegram</p>
                         <p class="mt-1 text-xs leading-relaxed text-sky-800/80">Buka Telegram toko, lalu tempel ringkasan pesanan yang tersalin.</p>
                         <div class="mt-3 flex gap-2">
-                            <button type="button" id="copy-summary" class="flex-1 rounded-lg bg-sky-600 px-3 py-2 text-[13px] font-bold text-white transition hover:bg-sky-700">Salin Ringkasan</button>
-                            <a id="telegram-link" href="#" target="_blank" rel="noopener" class="flex-1 rounded-lg border border-sky-300 bg-white px-3 py-2 text-center text-[13px] font-bold text-sky-700 transition hover:bg-sky-100">Buka Telegram ↗</a>
+                            <button type="button" id="copy-summary" class="flex-1 rounded-full bg-sky-600 px-3 py-2 text-[13px] font-bold text-white transition hover:bg-sky-700">Salin Ringkasan</button>
+                            <a id="telegram-link" href="#" target="_blank" rel="noopener" class="flex-1 rounded-full border border-sky-300 bg-white px-3 py-2 text-center text-[13px] font-bold text-sky-700 transition hover:bg-sky-100">Buka Telegram ↗</a>
                         </div>
                     </div>
-                    <div id="marketplace-box" class="hidden rounded-xl border border-orange-200 bg-orange-50 p-4">
+                    <div id="marketplace-box" class="hidden rounded-3xl border border-orange-200 bg-orange-50 p-5">
                         <p class="text-sm font-bold text-orange-900">Checkout via Marketplace</p>
                         <p class="mt-1 text-xs leading-relaxed text-orange-800/80">Marketplace tidak dapat memindahkan isi keranjang secara otomatis. Buka halaman produk satu per satu di bawah ini, lalu checkout di sana:</p>
                         <div id="marketplace-links" class="mt-3 space-y-2"></div>

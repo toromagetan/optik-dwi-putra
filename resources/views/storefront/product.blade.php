@@ -35,7 +35,7 @@
                 <div class="mt-3 flex gap-3 overflow-x-auto pb-1">
                     @foreach($product->images as $image)
                         <button type="button" onclick="document.getElementById('gallery-main').src = @js($image->url())"
-                            class="shrink-0 overflow-hidden rounded-xl border-2 border-transparent bg-white shadow-sm transition hover:border-brand-500 focus:border-brand-600">
+                            class="shrink-0 overflow-hidden rounded-2xl border-2 border-transparent bg-white shadow-sm transition hover:border-brand-500 focus:border-brand-600">
                             <img src="{{ $image->url() }}" alt="{{ $image->alt_text ?? $product->name }}" class="h-20 w-24 object-cover" loading="lazy">
                         </button>
                     @endforeach
@@ -66,20 +66,20 @@
             @endif
 
             <div class="mt-7 flex flex-wrap items-stretch gap-3">
-                <div class="flex items-center rounded-xl border border-stone-300 bg-white">
+                <div class="flex items-center rounded-full border border-stone-300 bg-white">
                     <button type="button" onclick="stepQty(-1)" class="px-4 py-3 text-lg font-bold text-stone-500 hover:text-brand-700">−</button>
                     <input id="qty-input" type="number" value="1" min="1" max="999" class="w-14 border-0 text-center text-sm font-bold outline-none">
                     <button type="button" onclick="stepQty(1)" class="px-4 py-3 text-lg font-bold text-stone-500 hover:text-brand-700">+</button>
                 </div>
                 <button type="button" @if($availability === 'out_of_stock') disabled @endif
                     onclick="addToCart({{ $product->id }}, Math.max(1, parseInt(document.getElementById('qty-input').value) || 1), @js($product->name))"
-                    class="flex-1 rounded-xl px-6 py-3 text-sm font-extrabold transition sm:flex-none sm:px-8 {{ $availability === 'out_of_stock' ? 'cursor-not-allowed bg-stone-200 text-stone-400' : 'bg-brand-700 text-white shadow hover:bg-brand-800' }}">
+                    class="flex-1 rounded-full px-6 py-3 text-sm font-extrabold transition sm:flex-none sm:px-8 {{ $availability === 'out_of_stock' ? 'cursor-not-allowed bg-stone-200 text-stone-400' : 'bg-brand-700 text-white shadow hover:bg-brand-800' }}">
                     {{ $availability === 'out_of_stock' ? 'Stok Habis' : '+ Masukkan Keranjang' }}
                 </button>
                 @if($availability !== 'out_of_stock')
                     <button type="button"
                         onclick="addToCart({{ $product->id }}, Math.max(1, parseInt(document.getElementById('qty-input').value) || 1), @js($product->name)); window.location.href = '{{ route('cart') }}';"
-                        class="rounded-xl border-2 border-brand-700 px-6 py-3 text-sm font-extrabold text-brand-800 transition hover:bg-brand-50">
+                        class="rounded-full border-2 border-brand-700 px-6 py-3 text-sm font-extrabold text-brand-800 transition hover:bg-brand-50">
                         Beli Sekarang
                     </button>
                 @endif
@@ -88,7 +88,7 @@
             {{-- Kanal marketplace produk ini --}}
             @php($marketplaceChannels = $product->activeChannels->filter(fn ($c) => $c->isMarketplace()))
             @if($marketplaceChannels->isNotEmpty())
-                <div class="mt-8 rounded-2xl border border-stone-200 bg-white p-5">
+                <div class="mt-8 rounded-3xl bg-stone-50 p-6">
                     <p class="text-sm font-extrabold text-brand-950">Beli produk ini di marketplace</p>
                     <p class="mt-0.5 text-xs text-stone-500">Tautan resmi ke halaman produk di marketplace pilihan toko.</p>
                     <div class="mt-3 flex flex-wrap gap-2">

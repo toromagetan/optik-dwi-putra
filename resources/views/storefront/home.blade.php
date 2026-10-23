@@ -7,9 +7,9 @@
     <section class="relative overflow-hidden bg-gradient-to-br from-brand-950 via-brand-900 to-brand-700 text-white">
         <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold-500/15 blur-3xl"></div>
         <div class="pointer-events-none absolute -bottom-32 left-1/3 h-80 w-80 rounded-full bg-brand-400/20 blur-3xl"></div>
-        <div class="relative mx-auto max-w-7xl px-4 py-14 sm:py-20 lg:px-8">
+        <div class="relative mx-auto max-w-7xl px-4 py-16 sm:py-24 lg:px-8">
             <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-gold-400">Katalog Resmi</p>
-            <h1 class="mt-3 max-w-2xl text-3xl font-extrabold leading-tight sm:text-5xl">{{ $store['store_name'] ?? 'Optik Dwi Putra' }}</h1>
+            <h1 class="mt-3 max-w-2xl text-4xl font-extrabold leading-[1.08] sm:text-6xl">{{ $store['store_name'] ?? 'Optik Dwi Putra' }}</h1>
             <p class="mt-3 max-w-xl text-base text-brand-100 sm:text-lg">{{ $store['tagline'] ?? 'Kacamata & lensa berkualitas untuk penglihatan yang lebih jernih.' }}</p>
             @if(!empty($store['about']))
                 <p class="mt-3 max-w-xl text-sm leading-relaxed text-brand-200/90">{{ \Illuminate\Support\Str::limit($store['about'], 200) }}</p>
@@ -115,14 +115,14 @@
     @if($categories->isNotEmpty())
         <section class="mx-auto max-w-7xl px-4 pt-10 lg:px-8">
             <div class="flex items-end justify-between">
-                <h2 class="text-xl font-extrabold text-brand-950">Belanja per Kategori</h2>
+                <h2 class="text-2xl font-extrabold text-brand-950">Belanja per Kategori</h2>
                 <a href="{{ route('catalog') }}" class="text-sm font-bold text-brand-700 hover:text-brand-800">Semua produk →</a>
             </div>
             <div class="no-scrollbar -mx-4 mt-4 flex gap-3 overflow-x-auto px-4 pb-1">
                 @foreach($categories as $category)
                     <a href="{{ route('catalog', ['kategori' => $category->slug]) }}"
-                        class="flex shrink-0 items-center gap-3 rounded-2xl border border-stone-200 bg-white px-5 py-4 shadow-sm transition hover:border-brand-300 hover:shadow">
-                        <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-50 text-brand-700">
+                        class="flex shrink-0 items-center gap-3 rounded-3xl bg-brand-50 px-6 py-5 transition hover:bg-brand-100">
+                        <span class="flex h-11 w-11 items-center justify-center rounded-full bg-white text-brand-700 shadow-sm">
                             <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="1.8" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3.75 12a8.25 8.25 0 1 1 16.5 0 8.25 8.25 0 0 1-16.5 0Z"/><circle cx="12" cy="12" r="3"/></svg>
                         </span>
                         <span>
@@ -138,9 +138,10 @@
     {{-- Produk unggulan --}}
     @if($featured->isNotEmpty())
         <section class="mx-auto max-w-7xl px-4 pt-12 lg:px-8">
-            <h2 class="text-xl font-extrabold text-brand-950">Produk Unggulan</h2>
-            <p class="mt-1 text-sm text-stone-500">Pilihan terbaik dari {{ $store['store_name'] ?? 'toko kami' }}.</p>
-            <div class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-gold-600">Pilihan Toko</p>
+            <h2 class="mt-1.5 text-2xl font-extrabold text-brand-950 sm:text-3xl">Produk Unggulan</h2>
+            <p class="mt-1.5 text-sm text-stone-500">Pilihan terbaik dari {{ $store['store_name'] ?? 'toko kami' }}.</p>
+            <div class="mt-7 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
                 @foreach($featured as $product)
                     <x-product-card :product="$product" />
                 @endforeach
@@ -148,17 +149,19 @@
         </section>
     @endif
 
-    {{-- Produk terbaru --}}
-    <section class="mx-auto max-w-7xl px-4 pt-12 lg:px-8">
+    {{-- Produk terbaru — pita lembut selebar layar (ritme seksi ala Zona Kacamata) --}}
+    <section class="mt-16 bg-brand-50 py-14">
+      <div class="mx-auto max-w-7xl px-4 lg:px-8">
         <div class="flex items-end justify-between">
             <div>
-                <h2 class="text-xl font-extrabold text-brand-950">Produk Terbaru</h2>
-                <p class="mt-1 text-sm text-stone-500">Koleksi terbaru yang baru saja tiba di toko.</p>
+                <p class="text-xs font-extrabold uppercase tracking-[0.22em] text-gold-600">Baru Datang</p>
+                <h2 class="mt-1.5 text-2xl font-extrabold text-brand-950 sm:text-3xl">Produk Terbaru</h2>
+                <p class="mt-1.5 text-sm text-stone-500">Koleksi terbaru yang baru saja tiba di toko.</p>
             </div>
             <a href="{{ route('catalog') }}" class="shrink-0 text-sm font-bold text-brand-700 hover:text-brand-800">Lihat semua →</a>
         </div>
         @if($latest->isNotEmpty())
-            <div class="mt-5 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            <div class="mt-7 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
                 @foreach($latest as $product)
                     <x-product-card :product="$product" />
                 @endforeach
@@ -168,5 +171,6 @@
                 Katalog sedang disiapkan. Silakan hubungi kami melalui WhatsApp untuk menanyakan produk.
             </div>
         @endif
+      </div>
     </section>
 @endsection

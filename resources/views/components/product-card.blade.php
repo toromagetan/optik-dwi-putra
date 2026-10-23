@@ -1,7 +1,7 @@
 @props(['product'])
 @php($availability = $product->effectiveAvailability())
-<article class="group flex flex-col overflow-hidden rounded-2xl border border-stone-200/80 bg-white shadow-sm transition hover:-translate-y-0.5 hover:shadow-lg">
-    <a href="{{ route('product.show', $product->slug) }}" class="relative block aspect-[4/3] overflow-hidden bg-stone-100">
+<article class="group flex flex-col transition duration-300 hover:-translate-y-1">
+    <a href="{{ route('product.show', $product->slug) }}" class="relative block aspect-[4/3] overflow-hidden rounded-[1.75rem] bg-stone-100">
         @if($product->mainImage())
             <img src="{{ $product->mainImage()->url() }}" alt="{{ $product->mainImage()->alt_text ?? $product->name }}" loading="lazy"
                 class="h-full w-full object-cover transition duration-500 group-hover:scale-105">
@@ -18,13 +18,13 @@
             {{ $availability === 'available' ? 'Tersedia' : ($availability === 'contact_for_availability' ? 'Tanya Dulu' : 'Stok Habis') }}
         </span>
     </a>
-    <div class="flex flex-1 flex-col p-4">
+    <div class="flex flex-1 flex-col px-1.5 pt-4">
         <p class="text-[11px] font-bold uppercase tracking-wider text-stone-400">{{ $product->brand?->name ?? $product->category?->name }}</p>
         <a href="{{ route('product.show', $product->slug) }}" class="mt-1 line-clamp-2 font-bold leading-snug text-brand-950 transition hover:text-brand-700">{{ $product->name }}</a>
-        <p class="mt-auto pt-3 text-[17px] font-extrabold text-brand-700">{{ $product->formattedPrice() }}</p>
+        <p class="mt-auto pt-3 text-lg font-extrabold text-brand-700">{{ $product->formattedPrice() }}</p>
         <button type="button" @if($availability === 'out_of_stock') disabled @endif
             onclick="addToCart({{ $product->id }}, 1, @js($product->name))"
-            class="mt-3 w-full rounded-xl py-2.5 text-sm font-bold transition {{ $availability === 'out_of_stock' ? 'cursor-not-allowed bg-stone-100 text-stone-400' : 'bg-brand-700 text-white hover:bg-brand-800' }}">
+            class="mt-3 w-full rounded-full py-2.5 text-sm font-bold transition {{ $availability === 'out_of_stock' ? 'cursor-not-allowed bg-stone-100 text-stone-400' : 'bg-brand-700 text-white hover:bg-brand-800' }}">
             {{ $availability === 'out_of_stock' ? 'Stok Habis' : '+ Keranjang' }}
         </button>
     </div>

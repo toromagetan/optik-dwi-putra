@@ -190,3 +190,12 @@ Pemilik meminta warna lain yang lebih fresh dengan acuan **Optik Djava** dan **Z
 - Aksen `gold` = **amber #f5a623** — kehangatan visual (jembatan dari keberanian warna Djava) untuk penekanan harga/promo.
 - Warna semantik TIDAK berubah: hijau WhatsApp (#25D366), hijau status aktif/terbit, dan amber peringatan tetap sebagaimana konvensi.
 - Gambar contoh ikut diselaraskan: suasana banner menjadi biru/amber dan latar produk mint diganti biru es.
+
+### 11.4 Warna oranye + tampilan luwes — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik meminta dicoba **warna oranye** dan tampilan yang **tidak kaku**, dengan **Zona Kacamata sebagai rujukan tampilan (bukan warna)**:
+
+- Token `brand` = skala **oranye** (jangkar #ea580c/#c2410c, tergelap #431407); aksen `gold` kembali ke amber cerah #f59e0b untuk kontras (lencana, label seksi, judul footer). Menggantikan tema biru §11.3 — pergantian cukup dari token pusat.
+- Bahasa tampilan mengikuti ritme Zona Kacamata: kartu produk **tanpa bingkai/kotak** (gambar bersudut sangat bulat, teks lega di bawahnya), grid berjarak longgar, tombol berbentuk **pill**, judul seksi lebih besar dengan label kecil di atasnya, ubin kategori lembut tanpa garis, dan seksi Produk Terbaru sebagai **pita lembut oranye muda selebar layar**. Hero lebih lapang dengan judul lebih besar.
+- Panel admin mengikuti warna lewat token; tata letaknya tetap utilitarian.
+- Gambar contoh diselaraskan: suasana banner & pita label menjadi oranye/cokelat-oranye.

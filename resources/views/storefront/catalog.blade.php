@@ -27,18 +27,18 @@
         <form method="GET" class="mt-4 flex flex-col gap-3 sm:flex-row">
             @if($activeCategory)<input type="hidden" name="kategori" value="{{ $activeCategory->slug }}">@endif
             <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari nama produk, SKU, atau kata kunci…"
-                class="w-full flex-1 rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100">
-            <select name="urut" onchange="this.form.submit()" class="rounded-xl border border-stone-300 bg-white px-4 py-2.5 text-sm font-medium outline-none focus:border-brand-600">
+                class="w-full flex-1 rounded-full border border-stone-300 bg-white px-5 py-2.5 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100">
+            <select name="urut" onchange="this.form.submit()" class="rounded-full border border-stone-300 bg-white px-4 py-2.5 text-sm font-medium outline-none focus:border-brand-600">
                 <option value="">Urutan: Terbaru</option>
                 <option value="harga-rendah" @selected(request('urut') === 'harga-rendah')>Harga terendah</option>
                 <option value="harga-tinggi" @selected(request('urut') === 'harga-tinggi')>Harga tertinggi</option>
                 <option value="nama" @selected(request('urut') === 'nama')>Nama A–Z</option>
             </select>
-            <button type="submit" class="rounded-xl bg-brand-700 px-5 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800">Cari</button>
+            <button type="submit" class="rounded-full bg-brand-700 px-6 py-2.5 text-sm font-bold text-white transition hover:bg-brand-800">Cari</button>
         </form>
 
         @if($products->isNotEmpty())
-            <div class="mt-6 grid grid-cols-2 gap-4 md:grid-cols-3 xl:grid-cols-4">
+            <div class="mt-8 grid grid-cols-2 gap-x-5 gap-y-10 md:grid-cols-3 xl:grid-cols-4">
                 @foreach($products as $product)
                     <x-product-card :product="$product" />
                 @endforeach
