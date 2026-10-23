@@ -26,7 +26,7 @@
                 @if(!empty($store['logo_url']))
                     <img src="{{ $store['logo_url'] }}" alt="{{ $store['store_name'] }}" class="h-10 w-10 rounded-xl object-cover ring-1 ring-stone-200">
                 @else
-                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-700 text-base font-extrabold text-white">{{ \Illuminate\Support\Str::substr($store['store_name'] ?? 'D', 0, 1) }}</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-500 text-base font-extrabold text-brand-950">{{ \Illuminate\Support\Str::substr($store['store_name'] ?? 'D', 0, 1) }}</span>
                 @endif
                 <span class="min-w-0">
                     <span class="block truncate text-base font-extrabold leading-tight text-brand-950">{{ $store['store_name'] ?? 'Optik Dwi Putra' }}</span>

@@ -171,7 +171,7 @@ class DummyImageGenerator
 
     private function dummyBandBottom($img, int $w, int $h): void
     {
-        $band = imagecolorallocatealpha($img, 67, 20, 7, 22);
+        $band = imagecolorallocatealpha($img, 26, 46, 5, 22);
         imagefilledrectangle($img, 0, $h - 52, $w, $h, $band);
         $this->ttf($img, 'Contoh tangkapan layar (dummy)', 20, 28, $h - 18, imagecolorallocate($img, 255, 255, 255));
     }
@@ -252,9 +252,9 @@ class DummyImageGenerator
     public function generateBanner(int $index, string $title): string
     {
         $scenes = [
-            [[67, 20, 7], [234, 88, 12], [251, 191, 36]],
-            [[24, 24, 27], [63, 63, 70], [245, 158, 11]],
-            [[124, 45, 18], [249, 115, 22], [255, 255, 255]],
+            [[26, 46, 5], [132, 204, 22], [255, 255, 255]],
+            [[17, 24, 39], [55, 65, 81], [132, 204, 22]],
+            [[247, 254, 231], [163, 230, 53], [26, 46, 5]],
         ];
         [$from, $to, $frameRgb] = $scenes[$index % count($scenes)];
 
@@ -404,7 +404,7 @@ class DummyImageGenerator
 
     private function labelBand($img, string $name, string $viewLabel, string $sku): void
     {
-        $band = imagecolorallocatealpha($img, 67, 20, 7, 18);
+        $band = imagecolorallocatealpha($img, 26, 46, 5, 18);
         imagefilledrectangle($img, 0, self::H - 108, self::W, self::H, $band);
         $white = imagecolorallocate($img, 255, 255, 255);
         $soft = imagecolorallocate($img, 190, 230, 215);

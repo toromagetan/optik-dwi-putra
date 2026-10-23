@@ -4,24 +4,24 @@
 
 @section('content')
     {{-- Hero --}}
-    <section class="relative overflow-hidden bg-gradient-to-br from-brand-950 via-brand-900 to-brand-700 text-white">
-        <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-gold-500/15 blur-3xl"></div>
-        <div class="pointer-events-none absolute -bottom-32 left-1/3 h-80 w-80 rounded-full bg-brand-400/20 blur-3xl"></div>
+    <section class="relative overflow-hidden bg-gradient-to-br from-brand-100 via-brand-50 to-white text-brand-950">
+        <div class="pointer-events-none absolute -right-24 -top-24 h-96 w-96 rounded-full bg-brand-300/40 blur-3xl"></div>
+        <div class="pointer-events-none absolute -bottom-32 left-1/3 h-80 w-80 rounded-full bg-brand-200/50 blur-3xl"></div>
         <div class="relative mx-auto max-w-7xl px-4 py-16 sm:py-24 lg:px-8">
-            <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-gold-400">Katalog Resmi</p>
+            <p class="text-xs font-extrabold uppercase tracking-[0.25em] text-brand-700">Katalog Resmi</p>
             <h1 class="mt-3 max-w-2xl text-4xl font-extrabold leading-[1.08] sm:text-6xl">{{ $store['store_name'] ?? 'Optik Dwi Putra' }}</h1>
-            <p class="mt-3 max-w-xl text-base text-brand-100 sm:text-lg">{{ $store['tagline'] ?? 'Kacamata & lensa berkualitas untuk penglihatan yang lebih jernih.' }}</p>
+            <p class="mt-3 max-w-xl text-base text-brand-800 sm:text-lg">{{ $store['tagline'] ?? 'Kacamata & lensa berkualitas untuk penglihatan yang lebih jernih.' }}</p>
             @if(!empty($store['about']))
-                <p class="mt-3 max-w-xl text-sm leading-relaxed text-brand-200/90">{{ \Illuminate\Support\Str::limit($store['about'], 200) }}</p>
+                <p class="mt-3 max-w-xl text-sm leading-relaxed text-stone-600">{{ \Illuminate\Support\Str::limit($store['about'], 200) }}</p>
             @endif
             <div class="mt-7 flex flex-wrap gap-3">
-                <a href="{{ route('catalog') }}" class="rounded-full bg-white px-6 py-3 text-sm font-extrabold text-brand-900 shadow-lg transition hover:bg-brand-50">Lihat Katalog</a>
+                <a href="{{ route('catalog') }}" class="rounded-full bg-brand-950 px-6 py-3 text-sm font-extrabold text-white shadow-lg transition hover:bg-brand-900">Lihat Katalog</a>
                 @if(!empty($store['whatsapp_number']))
-                    <a href="https://wa.me/{{ preg_replace('/\D+/', '', $store['whatsapp_number']) }}" target="_blank" rel="noopener" class="rounded-full border border-white/40 px-6 py-3 text-sm font-bold text-white transition hover:bg-white/10">Chat WhatsApp</a>
+                    <a href="https://wa.me/{{ preg_replace('/\D+/', '', $store['whatsapp_number']) }}" target="_blank" rel="noopener" class="rounded-full border border-brand-800/30 px-6 py-3 text-sm font-bold text-brand-900 transition hover:bg-brand-100">Chat WhatsApp</a>
                 @endif
             </div>
             @if(!empty($store['free_consultation_note']))
-                <p class="mt-6 inline-flex rounded-full bg-white/10 px-4 py-1.5 text-xs font-semibold text-brand-100 ring-1 ring-white/20">{{ $store['free_consultation_note'] }}</p>
+                <p class="mt-6 inline-flex rounded-full bg-white/70 px-4 py-1.5 text-xs font-semibold text-brand-900 ring-1 ring-brand-200">{{ $store['free_consultation_note'] }}</p>
             @endif
         </div>
     </section>

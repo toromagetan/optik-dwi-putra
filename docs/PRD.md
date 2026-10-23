@@ -208,3 +208,14 @@ Pemilik menilai header terasa mengganggu dan belum ada tampilan ulasan berisi ga
 - **Modul Ulasan Pelanggan** (tabel `reviews` di luar 8 tabel blueprint, mengikuti pola Banner): nama, kota, sumber (Google/WhatsApp/Instagram/Tokopedia/Shopee/Lainnya), rating 1–5, isi ulasan, **gambar tangkapan layar opsional** (tervalidasi isi MIME, maks 4 MB), aktif/nonaktif, urutan tampil + geser urutan; CRUD penuh di panel admin "Ulasan Pelanggan" + audit log.
 - **Seksi "Apa Kata Pelanggan"** di beranda (sesudah Produk Terbaru): ringkasan rating rata-rata + jumlah ulasan; ulasan bergambar tampil sebagai kartu tangkapan layar tinggi (geser menyamping di mobile); ulasan teks sebagai kartu testimoni berisi bintang, isi, dan identitas pelanggan.
 - Data contoh: 5 ulasan dummy (2 bergambar tangkapan layar chat WA & kartu Google hasil generator, berlabel dummy) — diganti ulasan asli lewat panel admin.
+
+### 11.6 Kembali ke warna & kebersihan Dwi Putra lama — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik menilai tema oranye (§11.4) kurang menarik dan versi lama terlihat lebih bersih; diminta mengambil dari Dwi Putra lama termasuk warnanya. Acuan dibaca dari histori repo (commit lama) dan screenshot uji versi lama:
+
+- Palet lama = **lime #84CC16** (logo & tombol janji), **arang #111827** (tombol produk, lencana, judul, pita seksi), di atas **putih/#FAFAFA** yang lapang — warna dipakai hemat, harga & judul berwana netral gelap.
+- Token `brand` diganti skala **lime** (jangkar #84cc16; tergelap #1a2e05); tombol utama memakai lime-700 (#4d7c0f) agar teks putih terbaca; aksen `gold` tetap amber hanya untuk bintang rating & penekanan kecil.
+- **Hero dibuat terang** seperti versi lama (gradasi lime sangat muda ke putih, teks gelap, tombol utama arang) — bukan blok warna pekat. Strip promo, footer, dan sidebar admin memakai brand-950 (hijau-arang pekat).
+- Blok logo header: persegi lime cerah dengan huruf gelap, meniru wordmark lime versi lama.
+- Generator diselaraskan: suasana banner lime/arang/putih dan pita label hijau-arang pekat.
+- Tata letak luwes §11.4 (kartu borderless, pill, pita seksi) dipertahankan; yang diganti adalah warna & nuansa terangnya.
