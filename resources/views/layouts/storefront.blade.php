@@ -15,21 +15,21 @@
 </head>
 <body class="bg-stone-50 font-sans text-stone-800 antialiased">
     @if(!empty($store['promo_text']))
-        <div class="bg-brand-950 text-center text-[13px] font-medium text-brand-100">
-            <p class="mx-auto max-w-7xl px-4 py-2">{{ $store['promo_text'] }}</p>
+        <div class="bg-brand-950 text-center text-xs font-medium text-brand-100">
+            <p class="mx-auto max-w-7xl px-4 py-1.5">{{ $store['promo_text'] }}</p>
         </div>
     @endif
 
     <header class="sticky top-0 z-40 border-b border-stone-200/80 bg-white/95 shadow-[0_1px_12px_rgba(0,0,0,0.04)] backdrop-blur">
-        <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-3 sm:gap-6 lg:px-8">
+        <div class="mx-auto flex max-w-7xl items-center gap-3 px-4 py-2 sm:gap-6 lg:px-8">
             <a href="{{ route('home') }}" class="flex min-w-0 items-center gap-3">
                 @if(!empty($store['logo_url']))
-                    <img src="{{ $store['logo_url'] }}" alt="{{ $store['store_name'] }}" class="h-11 w-11 rounded-xl object-cover ring-1 ring-stone-200">
+                    <img src="{{ $store['logo_url'] }}" alt="{{ $store['store_name'] }}" class="h-10 w-10 rounded-xl object-cover ring-1 ring-stone-200">
                 @else
-                    <span class="flex h-11 w-11 items-center justify-center rounded-xl bg-brand-700 text-lg font-extrabold text-white">{{ \Illuminate\Support\Str::substr($store['store_name'] ?? 'D', 0, 1) }}</span>
+                    <span class="flex h-10 w-10 items-center justify-center rounded-xl bg-brand-700 text-base font-extrabold text-white">{{ \Illuminate\Support\Str::substr($store['store_name'] ?? 'D', 0, 1) }}</span>
                 @endif
                 <span class="min-w-0">
-                    <span class="block truncate text-[17px] font-extrabold leading-tight text-brand-950">{{ $store['store_name'] ?? 'Optik Dwi Putra' }}</span>
+                    <span class="block truncate text-base font-extrabold leading-tight text-brand-950">{{ $store['store_name'] ?? 'Optik Dwi Putra' }}</span>
                     <span class="block truncate text-xs font-medium text-stone-500">{{ $store['tagline'] ?? '' }}</span>
                 </span>
             </a>
@@ -37,7 +37,7 @@
             <form action="{{ route('catalog') }}" method="GET" class="mx-auto hidden w-full max-w-xl flex-1 md:block">
                 <div class="relative">
                     <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari kacamata, lensa, SKU…"
-                        class="w-full rounded-full border border-stone-300 bg-stone-50 py-2.5 pl-4 pr-12 text-sm outline-none transition focus:border-brand-600 focus:bg-white focus:ring-2 focus:ring-brand-100">
+                        class="w-full rounded-full border border-stone-300 bg-stone-50 py-2 pl-4 pr-12 text-sm outline-none transition focus:border-brand-600 focus:bg-white focus:ring-2 focus:ring-brand-100">
                     <button type="submit" aria-label="Cari" class="absolute right-1 top-1 flex h-8 w-8 items-center justify-center rounded-full bg-brand-700 text-white transition hover:bg-brand-800">
                         <svg class="h-4 w-4" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="m20 20-3.5-3.5"/></svg>
                     </button>
@@ -45,21 +45,36 @@
             </form>
 
             <nav class="ml-auto flex items-center gap-1 sm:gap-2">
+                <button type="button" id="mobile-search-toggle" aria-label="Cari produk" aria-expanded="false" class="flex h-10 w-10 items-center justify-center rounded-full text-stone-600 transition hover:bg-brand-50 hover:text-brand-800 md:hidden">
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2.2" viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path stroke-linecap="round" d="m20 20-3.5-3.5"/></svg>
+                </button>
                 <a href="{{ route('home') }}" class="hidden rounded-full px-3 py-2 text-sm font-semibold text-stone-600 transition hover:bg-brand-50 hover:text-brand-800 sm:block">Beranda</a>
                 <a href="{{ route('catalog') }}" class="hidden rounded-full px-3 py-2 text-sm font-semibold text-stone-600 transition hover:bg-brand-50 hover:text-brand-800 sm:block">Katalog</a>
-                <a href="{{ route('cart') }}" class="relative flex items-center gap-2 rounded-full bg-brand-700 px-4 py-2.5 text-sm font-bold text-white shadow-sm transition hover:bg-brand-800">
+                <a href="{{ route('cart') }}" class="relative flex items-center gap-2 rounded-full bg-brand-700 px-4 py-2 text-sm font-bold text-white shadow-sm transition hover:bg-brand-800">
                     <svg class="h-5 w-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.3 4.6a1 1 0 0 0 .9 1.4H19M9 22a1 1 0 1 0 0-2 1 1 0 0 0 0 2Zm9 0a1 1 0 1 0 0-2 1 1 0 0 0 0 2Z"/></svg>
                     <span class="hidden sm:inline">Keranjang</span>
                     <span id="cart-count" class="absolute -right-1.5 -top-1.5 hidden h-5 min-w-5 items-center justify-center rounded-full bg-gold-500 px-1 text-[11px] font-extrabold text-white ring-2 ring-white">0</span>
                 </a>
             </nav>
         </div>
-        <div class="border-t border-stone-100 px-4 py-2 md:hidden">
+        <div id="mobile-search" class="hidden border-t border-stone-100 px-4 py-2 md:hidden">
             <form action="{{ route('catalog') }}" method="GET">
-                <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari produk atau SKU…"
+                <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari produk atau SKU…" id="mobile-search-input"
                     class="w-full rounded-full border border-stone-300 bg-stone-50 px-4 py-2 text-sm outline-none focus:border-brand-600 focus:bg-white">
             </form>
         </div>
+        <script>
+        (function () {
+            var btn = document.getElementById('mobile-search-toggle');
+            var panel = document.getElementById('mobile-search');
+            if (!btn || !panel) return;
+            btn.addEventListener('click', function () {
+                var open = panel.classList.toggle('hidden') === false;
+                btn.setAttribute('aria-expanded', open ? 'true' : 'false');
+                if (open) { var i = document.getElementById('mobile-search-input'); if (i) i.focus(); }
+            });
+        })();
+        </script>
     </header>
 
     <main>@yield('content')</main>
