@@ -162,3 +162,13 @@ Aturan data yang mengikat:
 - Varian produk dan resep lensa terstruktur (wizard resep) seperti eksplorasi versi lama — hanya masuk bila pemilik memutuskannya secara eksplisit.
 
 Setiap penambahan ruang lingkup dicatat dan disetujui pemilik bisnis **sebelum** implementasi; tidak ada fitur pembayaran yang masuk diam-diam.
+
+### 11.1 Keputusan pemilik bisnis — 24 Oktober 2026 (sesi pembangunan)
+
+Pemilik memutuskan pada awal pembangunan:
+
+1. **K-7 ditutup: panel admin memakai Blade kustom** (bukan Filament) — lebih lengkap, mudah dipakai, dan menarik secara tampilan.
+2. **Semua hal yang ditanyakan (K-1 s.d. K-6) diatur melalui panel admin** — identitas toko, logo, kontak, nomor WhatsApp, tautan Telegram/media sosial/marketplace, teks promosi, dan batas kuantitas keranjang tersimpan sebagai *store settings* dan dapat diubah tanpa menyentuh kode. Nilai awal memakai data dummy; penetapan nilai final (termasuk domain K-1 dan hosting K-2) menjadi pekerjaan sebelum peluncuran (Roadmap Fase 7), bukan penghalang pembangunan.
+3. **K-4 untuk pembangunan: katalog awal = 10 produk dummy, masing-masing 3 gambar** (gambar contoh hasil generator program; diganti foto asli melalui panel admin).
+4. **K-2 untuk pembangunan: Laravel 13 + PHP 8.3 + MySQL** (pola tumpukan pemilik saat ini), dikonfirmasi ulang terhadap hosting pada Fase 7.
+5. **K-6 bawaan diterapkan:** keranjang persisten di browser yang sama (localStorage), melewati penyegaran halaman.
