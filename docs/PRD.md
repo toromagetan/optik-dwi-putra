@@ -260,3 +260,12 @@ Melengkapi §11.9: pemilik meminta restore dibangun (sebelumnya hanya jalur manu
 - **Keselamatan**: sebelum restore, sistem wajib membuat backup keselamatan keadaan saat ini (trigger `pre-restore`, lokal) — gagal membuatnya = restore dibatalkan. Urutan: verifikasi password → pastikan arsip (lokal, atau unduh dari Drive bila lokal terhapus retensi) → backup keselamatan → dekripsi + ekstrak (pagar zip-slip, wajib MANIFEST) → impor database → pulihkan berkas → bersihkan cache → audit `backup.restored` ditulis sesudah restore.
 - **Catatan**: berkas backup keselamatan tetap ada di `storage/app/backups` walau setelah restore riwayat panel mengikuti isi database hasil restore.
 - Aksi terkait teraudit: `backup.restore_password_updated`, `backup.restored`.
+
+### 11.11 Filter merek di katalog — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik menanyakan pemisahan produk berdasarkan merek; audit membuktikan merek sudah ada sebagai master & atribut produk, tetapi katalog tidak dapat disaring per merek. Keputusan terkunci modul ini:
+
+- **Filter merek di katalog**: parameter `?merek=<slug>` (sejajar `?kategori=`), berupa dropdown "Semua merek" di formulir katalog; hanya merek **aktif yang punya produk terbit** yang ditawarkan (merek nonaktif / tanpa produk terbit tidak muncul sebagai opsi, dan slug-nya diabaikan seperti slug kategori tak dikenal).
+- **Kombinasi**: filter merek dapat dikombinasikan dengan kategori, pencarian, dan urutan; pill kategori mempertahankan merek aktif (dan sebaliknya).
+- **Tautan merek**: nama merek di halaman detail produk menjadi tautan ke katalog yang sudah tersaring merek tersebut; produk tanpa merek tetap tampil sebagai "Tanpa merek" dan tersaring keluar saat filter merek aktif.
+- Tanpa migrasi baru; tanpa perubahan rute (tetap `GET /katalog`).

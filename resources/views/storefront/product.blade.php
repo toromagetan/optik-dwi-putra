@@ -45,7 +45,14 @@
 
         {{-- Info produk --}}
         <div>
-            <p class="text-xs font-bold uppercase tracking-wider text-stone-400">{{ $product->brand?->name ?? 'Tanpa merek' }} · SKU {{ $product->sku }}</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-stone-400">
+                @if($product->brand)
+                    <a href="{{ route('catalog', ['merek' => $product->brand->slug]) }}" class="hover:text-brand-700">{{ $product->brand->name }}</a>
+                @else
+                    Tanpa merek
+                @endif
+                · SKU {{ $product->sku }}
+            </p>
             <h1 class="mt-2 text-2xl font-extrabold leading-tight text-brand-950 sm:text-3xl">{{ $product->name }}</h1>
 
             <div class="mt-4 flex flex-wrap items-center gap-3">

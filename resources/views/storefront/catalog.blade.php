@@ -10,24 +10,33 @@
             @if($activeCategory)
                 Menampilkan kategori <strong class="text-brand-800">{{ $activeCategory->name }}</strong> —
             @endif
+            @if($activeBrand)
+                Menampilkan merek <strong class="text-brand-800">{{ $activeBrand->name }}</strong> —
+            @endif
             {{ $products->total() }} produk ditemukan.
         </p>
 
-        {{-- Filter kategori --}}
+        {{-- Filter kategori (mempertahankan filter merek yang aktif) --}}
         <div class="no-scrollbar -mx-4 mt-5 flex gap-2 overflow-x-auto px-4 pb-1">
-            <a href="{{ route('catalog', array_filter(['q' => request('q'), 'urut' => request('urut')])) }}"
+            <a href="{{ route('catalog', array_filter(['merek' => $activeBrand?->slug, 'q' => request('q'), 'urut' => request('urut')])) }}"
                 class="shrink-0 rounded-full px-4 py-2 text-sm font-bold transition {{ !$activeCategory ? 'bg-brand-700 text-white shadow' : 'border border-stone-300 bg-white text-stone-600 hover:border-brand-400' }}">Semua</a>
             @foreach($categories as $category)
-                <a href="{{ route('catalog', array_filter(['kategori' => $category->slug, 'q' => request('q'), 'urut' => request('urut')])) }}"
+                <a href="{{ route('catalog', array_filter(['kategori' => $category->slug, 'merek' => $activeBrand?->slug, 'q' => request('q'), 'urut' => request('urut')])) }}"
                     class="shrink-0 rounded-full px-4 py-2 text-sm font-bold transition {{ $activeCategory?->id === $category->id ? 'bg-brand-700 text-white shadow' : 'border border-stone-300 bg-white text-stone-600 hover:border-brand-400' }}">{{ $category->name }}</a>
             @endforeach
         </div>
 
-        {{-- Pencarian + urutan --}}
+        {{-- Pencarian + filter merek + urutan --}}
         <form method="GET" class="mt-4 flex flex-col gap-3 sm:flex-row">
             @if($activeCategory)<input type="hidden" name="kategori" value="{{ $activeCategory->slug }}">@endif
             <input type="search" name="q" value="{{ request('q') }}" placeholder="Cari nama produk, SKU, atau kata kunci…"
                 class="w-full flex-1 rounded-full border border-stone-300 bg-white px-5 py-2.5 text-sm outline-none focus:border-brand-600 focus:ring-2 focus:ring-brand-100">
+            <select name="merek" class="rounded-full border border-stone-300 bg-white px-4 py-2.5 text-sm font-medium outline-none focus:border-brand-600">
+                <option value="">Semua merek</option>
+                @foreach($brands as $brand)
+                    <option value="{{ $brand->slug }}" @selected($activeBrand?->id === $brand->id)>{{ $brand->name }}</option>
+                @endforeach
+            </select>
             <select name="urut" onchange="this.form.submit()" class="rounded-full border border-stone-300 bg-white px-4 py-2.5 text-sm font-medium outline-none focus:border-brand-600">
                 <option value="">Urutan: Terbaru</option>
                 <option value="harga-rendah" @selected(request('urut') === 'harga-rendah')>Harga terendah</option>
@@ -47,7 +56,7 @@
         @else
             <div class="mt-6 rounded-2xl border border-dashed border-stone-300 bg-white px-6 py-14 text-center">
                 <p class="font-bold text-brand-950">Tidak ada produk yang cocok</p>
-                <p class="mt-1 text-sm text-stone-500">Coba kata kunci lain atau jelajahi kategori lainnya.</p>
+                <p class="mt-1 text-sm text-stone-500">Coba kata kunci lain atau jelajahi kategori dan merek lainnya.</p>
                 <a href="{{ route('catalog') }}" class="mt-4 inline-block rounded-full bg-brand-700 px-5 py-2.5 text-sm font-bold text-white hover:bg-brand-800">Lihat Semua Produk</a>
             </div>
         @endif

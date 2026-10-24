@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Storefront;
 
 use App\Http\Controllers\Controller;
+use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use Illuminate\Http\Request;
@@ -16,9 +17,19 @@ class CatalogController extends Controller
             ? $categories->firstWhere('slug', $request->string('kategori'))
             : null;
 
+        // Hanya merek aktif yang punya produk terbit yang ditawarkan sebagai filter.
+        $brands = Brand::active()
+            ->whereHas('products', fn ($q) => $q->published())
+            ->orderBy('name')
+            ->get();
+        $activeBrand = $request->filled('merek')
+            ? $brands->firstWhere('slug', $request->string('merek'))
+            : null;
+
         $products = Product::published()
             ->with(['images', 'brand', 'category'])
             ->when($activeCategory, fn ($q) => $q->where('category_id', $activeCategory->id))
+            ->when($activeBrand, fn ($q) => $q->where('brand_id', $activeBrand->id))
             ->when($request->filled('q'), function ($q) use ($request) {
                 $term = $request->string('q');
                 $q->where(fn ($w) => $w
@@ -33,7 +44,7 @@ class CatalogController extends Controller
             ->paginate(12)
             ->withQueryString();
 
-        return view('storefront.catalog', compact('products', 'categories', 'activeCategory'));
+        return view('storefront.catalog', compact('products', 'categories', 'activeCategory', 'brands', 'activeBrand'));
     }
 
     public function show(string $slug)
