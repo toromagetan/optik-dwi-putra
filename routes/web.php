@@ -64,4 +64,7 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::post('backups/run', [BackupController::class, 'store'])->name('backups.run');
     Route::put('backups/settings', [BackupController::class, 'updateSettings'])->name('backups.settings');
     Route::get('backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
+    Route::put('backups/restore-password', [BackupController::class, 'updateRestorePassword'])->name('backups.restore-password');
+    Route::get('backups/{backup}/restore', [BackupController::class, 'showRestoreForm'])->name('backups.restore.form');
+    Route::post('backups/{backup}/restore', [BackupController::class, 'restore'])->name('backups.restore');
 });

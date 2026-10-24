@@ -89,6 +89,47 @@
         </form>
     </section>
 
+    {{-- Password restore --}}
+    <section class="mb-6 rounded-2xl border border-stone-200 bg-white p-6 shadow-sm">
+        <h2 class="font-extrabold text-brand-950">Password Restore (Khusus Owner)</h2>
+        <p class="mt-1 max-w-3xl text-sm text-stone-500">Restore hanya dapat dijalankan dengan password khusus ini — terpisah dari kata sandi login admin, tersimpan sebagai hash (tidak dapat dilihat kembali). Status saat ini:
+            @if($restorePasswordSet)
+                <strong class="text-brand-700">sudah diatur</strong>.
+            @else
+                <strong class="text-amber-700">belum diatur — restore belum dapat dipakai</strong>.
+            @endif
+        </p>
+
+        <form method="POST" action="{{ route('admin.backups.restore-password') }}" class="mt-4">
+            @csrf @method('PUT')
+            <div class="grid gap-4 sm:grid-cols-2">
+                @if($restorePasswordSet)
+                    <div>
+                        <label class="{{ $labelCls }}">Password restore saat ini</label>
+                        <input type="password" name="current_restore_password" required autocomplete="off" class="{{ $inputCls }}">
+                        @error('current_restore_password')<p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>@enderror
+                    </div>
+                @else
+                    <div>
+                        <label class="{{ $labelCls }}">Kata sandi akun admin Anda (konfirmasi)</label>
+                        <input type="password" name="current_admin_password" required autocomplete="off" class="{{ $inputCls }}">
+                        @error('current_admin_password')<p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>@enderror
+                    </div>
+                @endif
+                <div>
+                    <label class="{{ $labelCls }}">Password restore baru (min. 10 karakter)</label>
+                    <input type="password" name="new_restore_password" required autocomplete="new-password" class="{{ $inputCls }}">
+                    @error('new_restore_password')<p class="mt-1 text-xs font-medium text-red-600">{{ $message }}</p>@enderror
+                </div>
+                <div>
+                    <label class="{{ $labelCls }}">Ulangi password restore baru</label>
+                    <input type="password" name="new_restore_password_confirmation" required autocomplete="new-password" class="{{ $inputCls }}">
+                </div>
+            </div>
+            <button class="mt-5 rounded-xl bg-stone-800 px-5 py-2.5 text-sm font-bold text-white hover:bg-stone-900">{{ $restorePasswordSet ? 'Ganti Password Restore' : 'Atur Password Restore' }}</button>
+        </form>
+    </section>
+
     {{-- Riwayat --}}
     <section class="overflow-hidden rounded-2xl border border-stone-200 bg-white shadow-sm">
         <div class="overflow-x-auto">
@@ -120,6 +161,8 @@
                             <td class="whitespace-nowrap px-4 py-3">
                                 @if($log->local_status === 'success')
                                     <a href="{{ route('admin.backups.download', $log) }}" class="font-bold text-brand-700 hover:text-brand-800">Unduh</a>
+                                    <span class="mx-1 text-stone-300">|</span>
+                                    <a href="{{ route('admin.backups.restore.form', $log) }}" class="font-bold text-red-600 hover:text-red-700">Restore</a>
                                 @else
                                     <span class="text-stone-300">—</span>
                                 @endif
@@ -134,5 +177,5 @@
     </section>
     <div class="mt-5">{{ $logs->links() }}</div>
 
-    <p class="mt-4 text-xs leading-relaxed text-stone-400">Restore manual: unduh arsip, dekripsi di server dengan <span class="font-mono">php artisan backup:decrypt &lt;berkas&gt;.zip.enc</span>, ekstrak ZIP, pulihkan <span class="font-mono">database.sql</span> ke MySQL dan folder <span class="font-mono">public/</span> ke <span class="font-mono">storage/app/public</span>.</p>
+    <p class="mt-4 text-xs leading-relaxed text-stone-400">Restore dari panel: klik <strong>Restore</strong> pada baris arsip, lalu masukkan password restore khusus owner. Sistem selalu membuat backup keselamatan keadaan saat ini sebelum restore berjalan. Restore juga dapat dilakukan manual di server dengan <span class="font-mono">php artisan backup:decrypt &lt;berkas&gt;.zip.enc</span>.</p>
 @endsection

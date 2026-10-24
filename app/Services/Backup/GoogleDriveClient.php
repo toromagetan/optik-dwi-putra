@@ -145,6 +145,23 @@ class GoogleDriveClient
         return $response->json('files') ?? [];
     }
 
+    /** Unduh isi berkas Drive ke path lokal (untuk restore). */
+    public function downloadTo(string $fileId, string $destination): void
+    {
+        $response = Http::withToken($this->accessToken())
+            ->timeout(300)
+            ->get("https://www.googleapis.com/drive/v3/files/{$fileId}", [
+                'alt' => 'media',
+                'supportsAllDrives' => 'true',
+            ]);
+
+        if ($response->failed()) {
+            throw new RuntimeException('Unduh dari Google Drive gagal: '.$response->status().' '.$response->body());
+        }
+
+        file_put_contents($destination, $response->body());
+    }
+
     public function delete(string $fileId): void
     {
         $response = Http::withToken($this->accessToken())

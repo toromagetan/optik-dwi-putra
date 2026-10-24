@@ -250,3 +250,13 @@ Setelah deploy perdana (§11.8, live di https://optik.istori.my.id) pemilik mena
 - **Restore manual** (belum otomatis): unduh arsip → `php artisan backup:decrypt <arsip>.zip.enc` → ekstrak → pulihkan `database.sql` + folder `public/`.
 - Semua aksi tercatat di Audit Log (`backup.created`, `backup.failed`, `backup.settings_updated`, `backup.downloaded`).
 - Aktivasi Drive di produksi menunggu input pemilik: JSON service account + Folder ID Shared Drive (dapat diisi langsung dari panel setelah deploy modul).
+
+### 11.10 Restore dari panel admin dengan password khusus owner — 24 Oktober 2026 (instruksi pemilik)
+
+Melengkapi §11.9: pemilik meminta restore dibangun (sebelumnya hanya jalur manual artisan) dengan gerbang **password khusus owner**.
+
+- **Password restore**: terpisah dari kata sandi login admin; disimpan sebagai hash bcrypt (`backup_restore_password_hash`), minimal 10 karakter, tidak dapat dilihat kembali. Pengaturan pertama wajib konfirmasi kata sandi akun admin; penggantian wajib password restore yang berlaku.
+- **Alur**: Panel Admin → Backup → *Restore* pada baris arsip → halaman konfirmasi penuh (peringatan + metadata arsip) → masukkan password restore. Percobaan dibatasi **5 kali per 10 menit** per admin (RateLimiter).
+- **Keselamatan**: sebelum restore, sistem wajib membuat backup keselamatan keadaan saat ini (trigger `pre-restore`, lokal) — gagal membuatnya = restore dibatalkan. Urutan: verifikasi password → pastikan arsip (lokal, atau unduh dari Drive bila lokal terhapus retensi) → backup keselamatan → dekripsi + ekstrak (pagar zip-slip, wajib MANIFEST) → impor database → pulihkan berkas → bersihkan cache → audit `backup.restored` ditulis sesudah restore.
+- **Catatan**: berkas backup keselamatan tetap ada di `storage/app/backups` walau setelah restore riwayat panel mengikuti isi database hasil restore.
+- Aksi terkait teraudit: `backup.restore_password_updated`, `backup.restored`.
