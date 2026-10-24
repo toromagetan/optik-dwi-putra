@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Admin\AuditLogController;
+use App\Http\Controllers\Admin\BackupController;
 use App\Http\Controllers\Admin\BannerController;
 use App\Http\Controllers\Admin\BrandController;
 use App\Http\Controllers\Admin\CategoryController;
@@ -58,4 +59,9 @@ Route::prefix('admin')->name('admin.')->middleware(['auth', 'admin'])->group(fun
     Route::put('settings', [SettingController::class, 'update'])->name('settings.update');
 
     Route::get('audit-logs', [AuditLogController::class, 'index'])->name('audit-logs.index');
+
+    Route::get('backups', [BackupController::class, 'index'])->name('backups.index');
+    Route::post('backups/run', [BackupController::class, 'store'])->name('backups.run');
+    Route::put('backups/settings', [BackupController::class, 'updateSettings'])->name('backups.settings');
+    Route::get('backups/{backup}/download', [BackupController::class, 'download'])->name('backups.download');
 });

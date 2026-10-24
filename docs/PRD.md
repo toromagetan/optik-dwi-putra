@@ -237,3 +237,16 @@ Pemilik mengirim tangkapan layar konsep dan memerintahkan tema diganti mengikuti
 - **Aksen amber (lencana Unggulan, eyebrow, judul footer) = `#E29F29`**, sesuai sampel tangkapan layar.
 - Implementasi murni lewat token Tailwind `@theme` di `resources/css/app.css` (skala `brand` kini keluarga biru dengan jangkar brand-700 = `#175FAB` dan brand-950 = `#0B284A`; skala `gold` dijangkar ke `#E29F29`). Tidak ada perubahan markup, tata letak, atau konten.
 - Catatan: sebagian foto stok adalah foto produk pihak ketiga untuk keperluan contoh tampilan — sebelum produksi, ganti dengan foto katalog asli toko.
+
+### 11.9 Modul Backup Google Drive di panel admin — 24 Oktober 2026 (instruksi pemilik)
+
+Setelah deploy perdana (§11.8, live di https://optik.istori.my.id) pemilik menanyakan ketiadaan backup dan memerintahkan modul backup Google Drive dibangun. Keputusan terkunci modul ini:
+
+- **Isi backup**: dump database + seluruh `storage/app/public` (foto produk/banner/logo) dalam satu ZIP, lalu **dienkripsi AES-256-CBC** (kunci dari `BACKUP_ENCRYPTION_KEY`, fallback `APP_KEY`); ekstensi final `.zip.enc`.
+- **Dua tujuan, gagal-lembut**: (1) lokal di `storage/app/backups` — retensi bawaan 5 arsip; (2) Google Drive via **Service Account** — retensi bawaan 10 arsip. Kegagalan unggah Drive tidak menggagalkan backup lokal (pola yang sama dengan Artesis).
+- **Prasyarat Drive**: folder tujuan wajib di **Shared Drive** (Google Workspace) dibagikan ke email service account sebagai Editor — service account tidak bisa menyimpan berkas di My Drive pribadi.
+- **Panel admin → Backup**: status konfigurasi, tombol *Backup Sekarang*, unduh arsip lokal, riwayat (`backup_logs`: status lokal/Drive per tahap, pemicu manual/terjadwal, pengguna), dan form pengaturan (aktifkan unggah, Folder ID, unggah JSON service account — disimpan di `storage/app/private/gdrive-sa.json` izin 0600, tidak pernah ditampilkan kembali, retensi lokal/Drive).
+- **Otomatis**: scheduler `backup:run` harian pukul 02:30 Asia/Jakarta (`BACKUP_SCHEDULE_TIME`) — membutuhkan cron `schedule:run` di server.
+- **Restore manual** (belum otomatis): unduh arsip → `php artisan backup:decrypt <arsip>.zip.enc` → ekstrak → pulihkan `database.sql` + folder `public/`.
+- Semua aksi tercatat di Audit Log (`backup.created`, `backup.failed`, `backup.settings_updated`, `backup.downloaded`).
+- Aktivasi Drive di produksi menunggu input pemilik: JSON service account + Folder ID Shared Drive (dapat diisi langsung dari panel setelah deploy modul).
