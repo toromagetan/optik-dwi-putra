@@ -227,4 +227,13 @@ Pemilik meminta banner dan produk contoh diisi promo dan **foto nyata (bukan gam
 - **Banner** memakai kembali 3 foto asli versi lama proyek ini (dari histori repo): deretan frame (Diskon Akhir Tahun), kacamata hitam premium emas (Koleksi Premium), ruang periksa mata modern (Periksa Mata Gratis).
 - **Produk**: 30 foto nyata kurasi (3 per produk: foto produk, pemakaian, detail) — bersumber dari foto varian asli versi lama (tortoise, clear, honey, rose, jet black) ditambah foto stok nyata terkurasi (Wikimedia Commons & hasil pencarian foto produk/pemakaian). Semua diproses (crop 1200×900; banner 1680×560) dan disimpan sebagai aset repo di `database/seeders/assets/` agar clone/seed ulang selalu menghasilkan tampilan yang sama.
 - Seeder menyalin aset foto ke disk publik; `DummyImageGenerator` kini hanya **cadangan** bila aset hilang. Foto tetap dapat diganti foto produk asli toko lewat panel admin (Produk → Galeri / Banner Promo).
+
+### 11.8 Ganti konsep warna: biru navy + biru #175FAB + amber — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik mengirim tangkapan layar konsep dan memerintahkan tema diganti mengikuti konsep itu; **isi/konten dummy (termasuk foto nyata §11.7) tetap, yang berubah hanya warna**. Keputusan ini **menggantikan tema lime §11.6** sebagai tema terkunci:
+
+- **Biru utama (aksi, harga, tautan, tombol) = `#175FAB`** — diambil dari sampel piksel median area tombol/harga pada tangkapan layar konsep (bukan tebakan).
+- **Navy gelap (footer, topbar, hero, sidebar admin) = `#0B284A`** (footer) dan **`#10355F`** (gradasi hero), sesuai sampel tangkapan layar.
+- **Aksen amber (lencana Unggulan, eyebrow, judul footer) = `#E29F29`**, sesuai sampel tangkapan layar.
+- Implementasi murni lewat token Tailwind `@theme` di `resources/css/app.css` (skala `brand` kini keluarga biru dengan jangkar brand-700 = `#175FAB` dan brand-950 = `#0B284A`; skala `gold` dijangkar ke `#E29F29`). Tidak ada perubahan markup, tata letak, atau konten.
 - Catatan: sebagian foto stok adalah foto produk pihak ketiga untuk keperluan contoh tampilan — sebelum produksi, ganti dengan foto katalog asli toko.
