@@ -219,3 +219,12 @@ Pemilik menilai tema oranye (§11.4) kurang menarik dan versi lama terlihat lebi
 - Blok logo header: persegi lime cerah dengan huruf gelap, meniru wordmark lime versi lama.
 - Generator diselaraskan: suasana banner lime/arang/putih dan pita label hijau-arang pekat.
 - Tata letak luwes §11.4 (kartu borderless, pill, pita seksi) dipertahankan; yang diganti adalah warna & nuansa terangnya.
+
+### 11.7 Banner & produk diisi FOTO NYATA — 24 Oktober 2026 (instruksi pemilik)
+
+Pemilik meminta banner dan produk contoh diisi promo dan **foto nyata (bukan gambar/ilustrasi)**:
+
+- **Banner** memakai kembali 3 foto asli versi lama proyek ini (dari histori repo): deretan frame (Diskon Akhir Tahun), kacamata hitam premium emas (Koleksi Premium), ruang periksa mata modern (Periksa Mata Gratis).
+- **Produk**: 30 foto nyata kurasi (3 per produk: foto produk, pemakaian, detail) — bersumber dari foto varian asli versi lama (tortoise, clear, honey, rose, jet black) ditambah foto stok nyata terkurasi (Wikimedia Commons & hasil pencarian foto produk/pemakaian). Semua diproses (crop 1200×900; banner 1680×560) dan disimpan sebagai aset repo di `database/seeders/assets/` agar clone/seed ulang selalu menghasilkan tampilan yang sama.
+- Seeder menyalin aset foto ke disk publik; `DummyImageGenerator` kini hanya **cadangan** bila aset hilang. Foto tetap dapat diganti foto produk asli toko lewat panel admin (Produk → Galeri / Banner Promo).
+- Catatan: sebagian foto stok adalah foto produk pihak ketiga untuk keperluan contoh tampilan — sebelum produksi, ganti dengan foto katalog asli toko.

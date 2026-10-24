@@ -6,6 +6,7 @@ use App\Models\Brand;
 use App\Models\Category;
 use App\Models\Product;
 use App\Support\DummyImageGenerator;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Str;
 
@@ -13,7 +14,8 @@ class CatalogSeeder extends Seeder
 {
     /**
      * Katalog contoh: 5 kategori, 3 merek, 10 produk dummy masing-masing
-     * dengan 3 gambar hasil gambar program (DummyImageGenerator).
+     * dengan 3 FOTO NYATA kurasi (aset di database/seeders/assets —
+     * foto versi lama + foto stok; generator hanya cadangan bila aset hilang).
      * Seluruhnya dapat diubah/diganti dari panel admin.
      */
     public function run(): void
@@ -84,7 +86,7 @@ class CatalogSeeder extends Seeder
             );
 
             if ($product->images()->count() === 0) {
-                $images = $generator->generateFor($product->id, $product->name, $product->sku, ['bg' => $bg, 'frame' => $frame]);
+                $images = $this->assetPhotos($product) ?? $generator->generateFor($product->id, $product->name, $product->sku, ['bg' => $bg, 'frame' => $frame]);
                 foreach ($images as $i => $image) {
                     $product->images()->create([
                         'path' => $image['path'],
@@ -94,6 +96,7 @@ class CatalogSeeder extends Seeder
                 }
             }
 
+            // (foto produk memakai aset bila tersedia)
             if ($product->channels()->count() === 0 && in_array($sku, ['FRM-DV-A1-BLK', 'FRM-AR-B2-TOR', 'LNS-DV-BC156', 'SUN-KL-D4-BLK'], true)) {
                 $product->channels()->createMany([
                     ['channel_type' => 'shopee', 'label' => 'Shopee', 'url' => 'https://shopee.co.id/'.Str::slug($name).'-i.889900.'.($product->id * 111), 'is_active' => true],
@@ -101,5 +104,29 @@ class CatalogSeeder extends Seeder
                 ]);
             }
         }
+    }
+
+    /**
+     * Salin FOTO NYATA kurasi dari database/seeders/assets/products/<SKU>/
+     * ke disk publik. Null bila aset tidak lengkap (pemanggil memakai
+     * generator sebagai cadangan).
+     *
+     * @return array<int, array{path: string, alt: string}>|null
+     */
+    private function assetPhotos(Product $product): ?array
+    {
+        $labels = ['Foto produk', 'Foto pemakaian', 'Foto detail'];
+        $entries = [];
+        foreach ([1, 2, 3] as $i) {
+            $asset = database_path("seeders/assets/products/{$product->sku}/{$i}.jpg");
+            if (! is_file($asset)) {
+                return null;
+            }
+            $path = "products/{$product->id}/foto-{$i}.jpg";
+            Storage::disk('public')->put($path, (string) file_get_contents($asset));
+            $entries[] = ['path' => $path, 'alt' => "{$product->name} \u2014 {$labels[$i - 1]}"];
+        }
+
+        return $entries;
     }
 }
